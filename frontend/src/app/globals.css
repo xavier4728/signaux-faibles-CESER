@@ -1,0 +1,101 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+  --radius-4xl: calc(var(--radius) + 16px);
+
+  --color-ceser-blue: #1B3A5C;
+  --color-ceser-blue-light: #2A5A8C;
+  --color-ceser-blue-pale: #E8EFF7;
+  --color-ceser-gold: #C4962C;
+  --color-ceser-green: #2D7D46;
+  --color-ceser-red: #B5332A;
+}
+
+:root {
+  --radius: 0.5rem;
+  /* CESER institutional blue palette */
+  --background: #FAFBFD;
+  --foreground: #1A1F36;
+  --card: #FFFFFF;
+  --card-foreground: #1A1F36;
+  --popover: #FFFFFF;
+  --popover-foreground: #1A1F36;
+  --primary: #1B3A5C;
+  --primary-foreground: #FFFFFF;
+  --secondary: #E8EFF7;
+  --secondary-foreground: #1B3A5C;
+  --muted: #F1F5F9;
+  --muted-foreground: #64748B;
+  --accent: #E8EFF7;
+  --accent-foreground: #1B3A5C;
+  --destructive: #B5332A;
+  --border: #D4DCE8;
+  --input: #D4DCE8;
+  --ring: #2A5A8C;
+  /* Chart colors aligned with institutional identity */
+  --chart-1: #1B3A5C;
+  --chart-2: #2A5A8C;
+  --chart-3: #2D7D46;
+  --chart-4: #C4962C;
+  --chart-5: #7C8DB0;
+  --sidebar: #1B3A5C;
+  --sidebar-foreground: #FFFFFF;
+  --sidebar-primary: #2A5A8C;
+  --sidebar-primary-foreground: #FFFFFF;
+  --sidebar-accent: #24486E;
+  --sidebar-accent-foreground: #FFFFFF;
+  --sidebar-border: #24486E;
+  --sidebar-ring: #2A5A8C;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground antialiased;
+  }
+}
