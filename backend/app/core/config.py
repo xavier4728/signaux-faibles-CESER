@@ -25,14 +25,14 @@ class Settings(BaseSettings):
     CORS_ORIGINS: list[str] = ["http://localhost:3000", "http://127.0.0.1:3000"]
 
     CESER_REGIONS: list[str] = [
-        "normandie",
         "bretagne",
-        "ile_de_france",
-        "occitanie",
-        "auvergne_rhone_alpes",
-        "nouvelle_aquitaine",
+        "centre_val_de_loire",
         "grand_est",
         "hauts_de_france",
+        "la_reunion",
+        "normandie",
+        "nouvelle_aquitaine",
+        "pays_de_la_loire",
     ]
 
     class Config:

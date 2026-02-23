@@ -90,3 +90,44 @@ VALIDATION_USER_PROMPT = """Évalue si la position/préconisation suivante du CE
 {legal_contexts}
 
 Retourne UNIQUEMENT le JSON, sans commentaire ni explication."""
+
+
+SYNTHESIS_SYSTEM_PROMPT = """Tu es un analyste politique senior. On te fournit les résultats d'une analyse CESER vs textes légaux.
+
+Tu dois produire un JSON avec 2 clés :
+
+1. "synthese" : texte Markdown COURT (max 250 mots) structuré ainsi :
+   - **1 paragraphe de récap** (3 phrases max) : stats clés, appréciation générale
+   - **Causes probables** (5-8 lignes) : pourquoi certaines précos ont matché ou pas (timing, niveau local vs national, pression institutionnelle, blocage budgétaire, formulation…)
+   - **Signaux faibles** (2-3 lignes) : 1-2 précos pas encore reprises mais potentiellement émergentes
+
+2. "categories" : tableau JSON classant CHAQUE préconisation par catégorie thématique.
+   Choisis parmi ces catégories (ou crées-en si nécessaire, 6 max au total) :
+   "Environnement", "Agriculture", "Emploi & Formation", "Santé", "Aménagement du territoire", "Gouvernance", "Économie", "Social", "Transport", "Énergie", "Numérique"
+
+FORMAT DE SORTIE (JSON strict) :
+{
+  "synthese": "**Récapitulatif**\\n\\n...",
+  "categories": [
+    {"categorie": "Agriculture", "preco_ids": [1, 3, 7], "matched": 2, "unmatched": 1},
+    {"categorie": "Environnement", "preco_ids": [2, 5], "matched": 1, "unmatched": 1}
+  ]
+}
+
+RÈGLES :
+- N'invente JAMAIS de faits
+- Cite les numéros de préconisations (#1, #2…)
+- Chaque préconisation doit apparaître dans exactement UNE catégorie
+- Sois CONCIS et PERCUTANT
+"""
+
+SYNTHESIS_USER_PROMPT = """Document CESER : "{source_doc}"
+Stats : {total} préconisations, {matched} reprises, {unmatched} non reprises, taux {taux}%
+
+--- REPRISES ---
+{matched_details}
+
+--- NON REPRISES ---
+{unmatched_details}
+
+JSON :"""

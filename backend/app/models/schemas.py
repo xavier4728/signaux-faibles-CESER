@@ -4,14 +4,14 @@ from enum import Enum
 
 class DatabaseTarget(str, Enum):
     LEGAL = "legal_national"
-    CESER_NORMANDIE = "ceser_normandie"
     CESER_BRETAGNE = "ceser_bretagne"
-    CESER_IDF = "ceser_ile_de_france"
-    CESER_OCCITANIE = "ceser_occitanie"
-    CESER_AURA = "ceser_auvergne_rhone_alpes"
-    CESER_NOUVELLE_AQUITAINE = "ceser_nouvelle_aquitaine"
+    CESER_CENTRE_VAL_DE_LOIRE = "ceser_centre_val_de_loire"
     CESER_GRAND_EST = "ceser_grand_est"
     CESER_HAUTS_DE_FRANCE = "ceser_hauts_de_france"
+    CESER_LA_REUNION = "ceser_la_reunion"
+    CESER_NORMANDIE = "ceser_normandie"
+    CESER_NOUVELLE_AQUITAINE = "ceser_nouvelle_aquitaine"
+    CESER_PAYS_DE_LA_LOIRE = "ceser_pays_de_la_loire"
 
 
 class DocumentMetadata(BaseModel):
@@ -65,6 +65,13 @@ class AnalysisResponse(BaseModel):
     message: str
 
 
+class CategoryStat(BaseModel):
+    categorie: str
+    preco_ids: list[int] = []
+    matched: int = 0
+    unmatched: int = 0
+
+
 class AnalysisResult(BaseModel):
     task_id: str
     status: str
@@ -72,6 +79,8 @@ class AnalysisResult(BaseModel):
     total_preconisations: int
     matched_preconisations: int
     taux_conversion: float
+    synthese: str = ""
+    categories: list[CategoryStat] = []
     results: list[PreconisationResult]
 
 
