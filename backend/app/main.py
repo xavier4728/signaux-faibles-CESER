@@ -4,7 +4,7 @@ from contextlib import asynccontextmanager
 from loguru import logger
 
 from app.core.config import settings
-from app.routers import ingest, analysis, documents
+from app.routers import ingest, analysis, documents, chat
 
 
 @asynccontextmanager
@@ -33,6 +33,7 @@ app.add_middleware(
 app.include_router(ingest.router, prefix="/api/ingest", tags=["Ingestion"])
 app.include_router(analysis.router, prefix="/api/analysis", tags=["Analysis"])
 app.include_router(documents.router, prefix="/api/documents", tags=["Documents"])
+app.include_router(chat.router, prefix="/api/chat", tags=["Chat"])
 
 
 @app.get("/api/health")
