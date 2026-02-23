@@ -1,6 +1,19 @@
 "use client";
 
 import { useState } from "react";
+import ReactMarkdown from "react-markdown";
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  Tooltip,
+  Legend,
+  ResponsiveContainer,
+  PieChart,
+  Pie,
+  Cell,
+} from "recharts";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -22,6 +35,8 @@ import {
   Loader2,
   ExternalLink,
   X,
+  Sparkles,
+  BarChart3,
 } from "lucide-react";
 
 interface PreconisationResult {
@@ -41,6 +56,13 @@ interface PreconisationResult {
   } | null;
 }
 
+interface CategoryStat {
+  categorie: string;
+  preco_ids: number[];
+  matched: number;
+  unmatched: number;
+}
+
 interface AnalysisState {
   status: "idle" | "processing" | "completed" | "failed";
   progress: number;
@@ -50,6 +72,8 @@ interface AnalysisState {
   totalPreconisations: number;
   matchedPreconisations: number;
   sourceDocument: string;
+  synthese: string;
+  categories: CategoryStat[];
 }
 
 function ScoreIcon({ score }: { score: number }) {
@@ -139,6 +163,8 @@ export default function AnalysisPage() {
     totalPreconisations: 0,
     matchedPreconisations: 0,
     sourceDocument: "",
+    synthese: "",
+    categories: [],
   });
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [isDragOver, setIsDragOver] = useState(false);
@@ -209,6 +235,8 @@ export default function AnalysisPage() {
               totalPreconisations: status.result.total_preconisations,
               matchedPreconisations: status.result.matched_preconisations,
               sourceDocument: status.result.source_document,
+              synthese: status.result.synthese || "",
+              categories: status.result.categories || [],
             });
           } else if (status.status === "failed") {
             clearInterval(pollInterval);
@@ -395,6 +423,125 @@ export default function AnalysisPage() {
           </CardContent>
         </Card>
       </div>
+
+      {/* Synthesis + Charts */}
+      {analysis.status === "completed" && (analysis.synthese || analysis.categories.length > 0) && (
+        <div className="grid gap-6 lg:grid-cols-3">
+          {/* Synthesis text — takes 2 columns */}
+          {analysis.synthese && (
+            <Card className="border-[var(--color-ceser-blue)]/30 bg-gradient-to-br from-[var(--color-ceser-blue-pale)] to-white lg:col-span-2">
+              <CardHeader className="pb-2">
+                <div className="flex items-center gap-2">
+                  <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-[var(--color-ceser-blue)]/10">
+                    <Sparkles className="h-3.5 w-3.5 text-[var(--color-ceser-blue)]" />
+                  </div>
+                  <CardTitle className="text-sm font-semibold text-[var(--color-ceser-blue)]">
+                    Synthèse analytique
+                  </CardTitle>
+                </div>
+              </CardHeader>
+              <CardContent>
+                <div className="prose prose-sm max-w-none prose-p:my-1.5 prose-p:text-sm prose-p:leading-relaxed prose-p:text-muted-foreground prose-strong:text-foreground prose-li:my-0.5 prose-li:text-sm prose-li:text-muted-foreground prose-ul:my-1">
+                  <ReactMarkdown>{analysis.synthese}</ReactMarkdown>
+                </div>
+              </CardContent>
+            </Card>
+          )}
+
+          {/* Pie chart — score breakdown */}
+          <Card className="border-border/60">
+            <CardHeader className="pb-2">
+              <div className="flex items-center gap-2">
+                <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-muted">
+                  <BarChart3 className="h-3.5 w-3.5 text-muted-foreground" />
+                </div>
+                <CardTitle className="text-sm font-semibold">
+                  Répartition des scores
+                </CardTitle>
+              </div>
+            </CardHeader>
+            <CardContent>
+              {(() => {
+                const score2 = analysis.results.filter((r) => r.match?.score_reutilisation === 2).length;
+                const score1 = analysis.results.filter((r) => r.match?.score_reutilisation === 1).length;
+                const score0 = analysis.results.filter((r) => !r.match || r.match.score_reutilisation === 0).length;
+                const pieData = [
+                  { name: "Reprise littérale", value: score2, color: "var(--color-ceser-green)" },
+                  { name: "Influence indirecte", value: score1, color: "var(--color-ceser-gold)" },
+                  { name: "Non retrouvé", value: score0, color: "var(--color-ceser-red)" },
+                ].filter((d) => d.value > 0);
+                return (
+                  <div className="space-y-3">
+                    <ResponsiveContainer width="100%" height={180}>
+                      <PieChart>
+                        <Pie
+                          data={pieData}
+                          cx="50%"
+                          cy="50%"
+                          innerRadius={40}
+                          outerRadius={70}
+                          paddingAngle={3}
+                          dataKey="value"
+                        >
+                          {pieData.map((entry, i) => (
+                            <Cell key={i} fill={entry.color} />
+                          ))}
+                        </Pie>
+                        <Tooltip formatter={(value: number) => [`${value} préco.`, ""]} />
+                      </PieChart>
+                    </ResponsiveContainer>
+                    <div className="flex flex-wrap justify-center gap-3">
+                      {pieData.map((d) => (
+                        <div key={d.name} className="flex items-center gap-1.5 text-xs">
+                          <div className="h-2.5 w-2.5 rounded-full" style={{ backgroundColor: d.color }} />
+                          <span className="text-muted-foreground">{d.name}</span>
+                          <span className="font-semibold">{d.value}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                );
+              })()}
+            </CardContent>
+          </Card>
+
+          {/* Bar chart — matching by category (full width) */}
+          {analysis.categories.length > 0 && (
+            <Card className="border-border/60 lg:col-span-3">
+              <CardHeader className="pb-2">
+                <div className="flex items-center gap-2">
+                  <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-muted">
+                    <BarChart3 className="h-3.5 w-3.5 text-muted-foreground" />
+                  </div>
+                  <CardTitle className="text-sm font-semibold">
+                    Matching par catégorie thématique
+                  </CardTitle>
+                </div>
+              </CardHeader>
+              <CardContent>
+                <ResponsiveContainer width="100%" height={Math.max(200, analysis.categories.length * 40)}>
+                  <BarChart
+                    data={analysis.categories.map((c) => ({
+                      name: c.categorie,
+                      Reprises: c.matched,
+                      "Non reprises": c.unmatched,
+                    }))}
+                    layout="vertical"
+                    margin={{ left: 10, right: 20, top: 5, bottom: 5 }}
+                  >
+                    <XAxis type="number" allowDecimals={false} tick={{ fontSize: 11 }} />
+                    <YAxis type="category" dataKey="name" width={140} tick={{ fontSize: 11 }} />
+                    <Tooltip />
+                    <Legend wrapperStyle={{ fontSize: 11 }} />
+                    <Bar dataKey="Reprises" stackId="a" fill="var(--color-ceser-green)" radius={[0, 0, 0, 0]} />
+                    <Bar dataKey="Non reprises" stackId="a" fill="var(--color-ceser-red)" radius={[0, 4, 4, 0]} />
+                  </BarChart>
+                </ResponsiveContainer>
+              </CardContent>
+            </Card>
+          )}
+        </div>
+      )}
 
       {/* Results Split View */}
       {analysis.status === "completed" && analysis.results.length > 0 && (

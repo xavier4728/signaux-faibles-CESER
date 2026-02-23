@@ -11,12 +11,15 @@ from app.models.schemas import (
     LegalMatch,
     PreconisationResult,
     AnalysisResult,
+    CategoryStat,
 )
 from app.prompts.extraction import (
     EXTRACTION_SYSTEM_PROMPT,
     EXTRACTION_USER_PROMPT,
     VALIDATION_SYSTEM_PROMPT,
     VALIDATION_USER_PROMPT,
+    SYNTHESIS_SYSTEM_PROMPT,
+    SYNTHESIS_USER_PROMPT,
 )
 from app.services.task_manager import task_manager
 
@@ -109,14 +112,19 @@ class RAGPipeline:
             task_manager.update_task(task_id, progress=0.65, message="Contextes légaux récupérés")
 
             # Step 4: Validation & scoring (parallel LLM calls)
-            logger.info(f"[{task_id}] ÉTAPE 4/4 : Validation et scoring LLM...")
+            logger.info(f"[{task_id}] ÉTAPE 4/5 : Validation et scoring LLM...")
             task_manager.update_task(task_id, progress=0.7, message="Validation et scoring (LLM)...")
             results = await self._validate_matches(preconisations, legal_contexts)
-            task_manager.update_task(task_id, progress=0.95, message="Calcul des KPIs...")
 
             matched = sum(1 for r in results if r.match and r.match.score_reutilisation > 0)
             total = len(results)
             taux = (matched / total * 100) if total > 0 else 0.0
+
+            # Step 5: Generate synthesis
+            logger.info(f"[{task_id}] ÉTAPE 5/5 : Génération de la synthèse analytique...")
+            task_manager.update_task(task_id, progress=0.9, message="Génération de la synthèse analytique (LLM)...")
+            synthese, categories = await self._generate_synthesis(results, source_doc, total, matched, taux)
+            logger.info(f"[{task_id}] ÉTAPE 5/5 OK : Synthèse générée ({len(synthese)} chars), {len(categories)} catégories")
 
             analysis_result = AnalysisResult(
                 task_id=task_id,
@@ -125,6 +133,8 @@ class RAGPipeline:
                 total_preconisations=total,
                 matched_preconisations=matched,
                 taux_conversion=round(taux, 1),
+                synthese=synthese,
+                categories=categories,
                 results=results,
             )
 
@@ -421,3 +431,58 @@ class RAGPipeline:
                 validated.append(result)
 
         return validated
+
+    async def _generate_synthesis(
+        self,
+        results: list[PreconisationResult],
+        source_doc: str,
+        total: int,
+        matched: int,
+        taux: float,
+    ) -> tuple[str, list[CategoryStat]]:
+        matched_lines: list[str] = []
+        unmatched_lines: list[str] = []
+
+        for r in results:
+            score = r.match.score_reutilisation if r.match else 0
+            if score > 0 and r.match:
+                matched_lines.append(
+                    f"- #{r.preconisation.id} (score={score}, sim={r.match.score_similarite}%): "
+                    f"\"{r.preconisation.preconisation[:150]}\""
+                )
+            else:
+                unmatched_lines.append(
+                    f"- #{r.preconisation.id}: \"{r.preconisation.preconisation[:150]}\""
+                )
+
+        user_prompt = SYNTHESIS_USER_PROMPT.format(
+            source_doc=source_doc,
+            total=total,
+            matched=matched,
+            unmatched=total - matched,
+            taux=round(taux, 1),
+            matched_details="\n".join(matched_lines) if matched_lines else "(aucune)",
+            unmatched_details="\n".join(unmatched_lines) if unmatched_lines else "(aucune)",
+        )
+
+        try:
+            raw = await self._call_llm(SYNTHESIS_SYSTEM_PROMPT, user_prompt)
+            data = json.loads(raw)
+            synthese_text = data.get("synthese", "")
+            raw_cats = data.get("categories", [])
+            categories = [
+                CategoryStat(
+                    categorie=c.get("categorie", "Autre"),
+                    preco_ids=c.get("preco_ids", []),
+                    matched=c.get("matched", 0),
+                    unmatched=c.get("unmatched", 0),
+                )
+                for c in raw_cats
+                if isinstance(c, dict)
+            ]
+            return synthese_text, categories
+        except json.JSONDecodeError:
+            return raw, []
+        except Exception as e:
+            logger.warning(f"Synthesis generation failed: {e}")
+            return "", []
