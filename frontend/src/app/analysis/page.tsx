@@ -38,6 +38,7 @@ import {
   Sparkles,
   BarChart3,
 } from "lucide-react";
+import { ChatBot } from "@/components/chat-bot";
 
 interface PreconisationResult {
   preconisation: {
@@ -169,6 +170,7 @@ export default function AnalysisPage() {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [isDragOver, setIsDragOver] = useState(false);
   const [pdfModal, setPdfModal] = useState<{ filename: string; page: number } | null>(null);
+  const [taskId, setTaskId] = useState<string | null>(null);
 
   const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files?.[0]) {
@@ -198,11 +200,12 @@ export default function AnalysisPage() {
         body: formData,
       });
       const data = await response.json();
-      const taskId = data.task_id;
+      const currentTaskId = data.task_id;
+      setTaskId(currentTaskId);
 
       const pollInterval = setInterval(async () => {
         try {
-          const statusRes = await fetch(`http://localhost:8000/api/analysis/status/${taskId}`);
+          const statusRes = await fetch(`http://localhost:8000/api/analysis/status/${currentTaskId}`);
 
           if (!statusRes.ok) {
             clearInterval(pollInterval);
@@ -626,6 +629,9 @@ export default function AnalysisPage() {
           </CardContent>
         </Card>
       )}
+
+      {/* Chatbot */}
+      {analysis.status === "completed" && <ChatBot taskId={taskId} />}
     </div>
   );
 }
