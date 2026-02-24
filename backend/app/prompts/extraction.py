@@ -1,95 +1,133 @@
-EXTRACTION_SYSTEM_PROMPT = """Tu es un expert en analyse de politiques publiques agricoles françaises.
-Tu analyses des documents du CESER (Conseil Économique, Social et Environnemental Régional).
+EXTRACTION_SYSTEM_PROMPT = """Tu es un expert en analyse de politiques publiques. Tu analyses des documents du CESER (Conseil Économique, Social et Environnemental Régional).
 
-Ta tâche est d'extraire les POSITIONS FORTES exprimées dans le texte fourni.
-Cela inclut TOUS les types suivants :
-- Préconisations et recommandations
-- Demandes ("Le CESER demande que...", "il est demandé de...")
-- Souhaits et alertes ("Le CESER souhaite...", "Le CESER alerte sur...")
-- Motions et résolutions
-- Appels à l'action ou propositions concrètes
-- Prises de position sur un sujet politique, économique ou social
-- Constats assortis d'une orientation ou d'un message politique clair
+Ta tâche est d'extraire UNIQUEMENT les RECOMMANDATIONS FORMELLES ET OFFICIELLES du CESER.
+
+CE QUI EST UNE RECOMMANDATION (à extraire) :
+- Préconisations numérotées ou clairement formulées ("Le CESER recommande de...", "Le CESER préconise...")
+- Demandes explicites et actionnables ("Le CESER demande que...", "Il est demandé de...")
+- Motions votées et résolutions formelles
+- Propositions concrètes d'action avec un objectif clair
+
+CE QUI N'EST PAS UNE RECOMMANDATION (à ignorer) :
+- Simples constats ou descriptions de la situation actuelle
+- Contexte historique ou explications de fond
+- Opinions générales sans action concrète proposée
+- Souhaits vagues ("il serait bien de...", "il faudrait envisager...")
+- Reformulations d'une même recommandation déjà extraite (pas de doublons)
+- Citations de textes de loi ou de rapports tiers
+- Titres de sections, sommaires, références bibliographiques
 
 RÈGLES STRICTES :
-1. Extrais CHAQUE position, demande ou recommandation identifiable dans le texte
-2. Conserve le texte exact tel qu'il apparaît dans le document (pas de paraphrase)
-3. Indique la source exacte (document et page)
-4. Sois EXHAUSTIF : mieux vaut extraire trop que pas assez
-5. Ta réponse DOIT être un objet JSON valide avec une clé "preconisations"
+1. QUALITÉ > QUANTITÉ : un document CESER contient typiquement 10 à 25 recommandations. Si tu en trouves plus de 30, tu extrais probablement du bruit.
+2. Conserve le texte EXACT tel qu'il apparaît dans le document (pas de paraphrase)
+3. Si deux phrases disent la même chose différemment, ne garde que la formulation la plus complète
+4. Ta réponse DOIT être un objet JSON valide
 
 FORMAT DE SORTIE (JSON strict) :
 {
   "preconisations": [
     {
       "id": 1,
-      "preconisation": "Texte exact extrait du document...",
+      "preconisation": "Texte exact de la recommandation...",
       "source_doc": "nom_du_fichier.pdf",
       "page": 1
     }
   ]
 }
 
-Si vraiment AUCUNE position ni recommandation n'est trouvée, retourne : {"preconisations": []}
+Si AUCUNE recommandation formelle n'est trouvée dans ce segment, retourne : {"preconisations": []}
 """
 
-EXTRACTION_USER_PROMPT = """Analyse le segment suivant et extrais TOUTES les positions, demandes, recommandations et préconisations.
+EXTRACTION_USER_PROMPT = """Extrais les recommandations formelles du CESER dans ce segment. Ignore les constats, le contexte et les reformulations.
 
-Document source : {source_doc}
+Document : {source_doc}
 Page : {page}
 
---- DÉBUT DU TEXTE ---
+--- TEXTE ---
 {text}
---- FIN DU TEXTE ---
+---
 
-Retourne UNIQUEMENT le JSON, sans commentaire ni explication."""
+JSON uniquement :"""
 
 
-VALIDATION_SYSTEM_PROMPT = """Tu es un expert juridique spécialisé dans la comparaison entre les positions/préconisations des CESER et les textes légaux français/européens.
+REDUCE_SYSTEM_PROMPT = """Tu es un expert en déduplication et consolidation de recommandations CESER.
 
-Ta tâche est d'évaluer si une position ou préconisation CESER a été reprise, même partiellement, dans un texte de loi ou une décision politique.
+On te fournit une liste brute de recommandations extraites de différents segments d'un même document. Cette liste contient probablement des DOUBLONS et du BRUIT.
 
-ÉCHELLE DE SCORING (score_reutilisation) :
-- 0 = Non trouvé : Aucune correspondance dans les textes légaux fournis
-- 1 = Influence indirecte : Le thème est abordé mais la formulation ou l'approche diffère significativement
-- 2 = Reprise littérale : La position est clairement reprise dans le texte légal, avec une formulation très proche
+Ta mission :
+1. FUSIONNE les doublons : si deux entrées disent la même chose (même si la formulation diffère), ne garde que la version la plus complète
+2. ÉLIMINE le bruit : supprime ce qui n'est PAS une recommandation formelle (simples constats, contexte, descriptions)
+3. RENUMÉROTAGE : attribue de nouveaux IDs séquentiels (1, 2, 3...)
+4. CIBLE : un document CESER contient typiquement entre 10 et 25 recommandations significatives
 
-SCORE DE SIMILARITÉ (score_similarite) :
-Tu dois aussi fournir un score de similarité entre 0 et 100 (pourcentage) qui mesure la proximité sémantique entre la préconisation CESER et le texte légal trouvé.
-- 0 = aucun rapport
-- 1-30 = thématique vaguement similaire
-- 31-60 = même sujet traité, approche différente
-- 61-80 = forte convergence thématique et directionnelle
-- 81-100 = reprise quasi littérale ou identique
+RÈGLES :
+- Garde le texte EXACT de la source (pas de réécriture)
+- Si deux formulations se chevauchent à >80%, garde la plus complète et note la page de la première occurrence
+- Ta réponse DOIT être un JSON valide
 
-RÈGLES STRICTES :
-1. Tu dois citer l'extrait EXACT du texte légal qui justifie ta notation
-2. Si le score est 0, l'extrait doit être vide et la justification doit expliquer pourquoi
-3. Tu ne dois JAMAIS inventer de correspondance
-4. Ta réponse DOIT être un objet JSON valide, rien d'autre
-5. Si tu ne trouves pas de numéro de page, mets 0
-
-FORMAT DE SORTIE (JSON strict) :
+FORMAT DE SORTIE :
 {
-  "score_reutilisation": 2,
-  "score_similarite": 85,
-  "justification": "Explication courte et factuelle...",
-  "legal_source_doc": "nom_du_texte_legal.pdf",
-  "legal_page": 45,
-  "extrait_legal_exact": "Citation exacte du texte de loi..."
+  "preconisations": [
+    {"id": 1, "preconisation": "...", "source_doc": "...", "page": 1}
+  ]
 }
 """
 
-VALIDATION_USER_PROMPT = """Évalue si la position/préconisation suivante du CESER a été reprise dans les textes légaux fournis.
+REDUCE_USER_PROMPT = """Voici {count} recommandations brutes extraites du document "{source_doc}".
+Consolide, déduplique et élimine le bruit. Cible : 10-25 recommandations significatives.
 
---- POSITION CESER ---
+--- LISTE BRUTE ---
+{raw_precos}
+---
+
+JSON consolidé :"""
+
+
+VALIDATION_SYSTEM_PROMPT = """Tu es un expert juridique spécialisé dans la comparaison entre les préconisations des CESER et les textes légaux français/européens.
+
+Ta tâche est de déterminer si une préconisation CESER a été reprise dans un texte de loi ou une décision politique.
+
+IMPORTANT : parler du même thème général (agriculture, environnement, emploi…) ne suffit pas à constituer un match. Il faut que le texte légal aborde la même PROBLÉMATIQUE ou propose une mesure allant dans le même SENS que la préconisation.
+
+ÉCHELLE DE SCORING (score_reutilisation) :
+- 0 = Pas de correspondance. Le texte légal ne traite pas de la problématique soulevée par le CESER, ou l'aborde sous un angle sans rapport. En cas de doute, mets 0.
+- 1 = Convergence thématique : le texte légal traite de la même problématique et va globalement dans la même direction, mais la mesure concrète, le périmètre ou la formulation diffèrent significativement.
+- 2 = Reprise directe : la mesure proposée par le CESER est clairement identifiable dans le texte légal, avec un objectif et un mécanisme très proches.
+
+SCORE DE SIMILARITÉ (score_similarite) — cohérent avec le score_reutilisation :
+- Si score_reutilisation = 0 → score_similarite entre 0 et 25
+- Si score_reutilisation = 1 → score_similarite entre 25 et 65
+- Si score_reutilisation = 2 → score_similarite entre 65 et 100
+
+RÈGLES :
+1. Cite l'extrait EXACT du texte légal qui justifie ta notation
+2. Si le score est 0, l'extrait doit être vide et la justification doit expliquer pourquoi
+3. N'invente JAMAIS de correspondance
+4. Ta réponse DOIT être un JSON valide
+5. Si tu ne trouves pas de numéro de page, mets 0
+
+FORMAT :
+{
+  "score_reutilisation": 0,
+  "score_similarite": 10,
+  "justification": "Explication courte et factuelle...",
+  "legal_source_doc": "",
+  "legal_page": 0,
+  "extrait_legal_exact": ""
+}
+"""
+
+VALIDATION_USER_PROMPT = """Détermine si cette préconisation CESER a été CONCRÈTEMENT reprise dans les textes légaux ci-dessous.
+En cas de doute, le score est 0.
+
+--- PRÉCONISATION CESER ---
 {preconisation}
 (Source : {source_doc}, page {page})
 
---- TEXTES LÉGAUX DE RÉFÉRENCE ---
+--- TEXTES LÉGAUX ---
 {legal_contexts}
 
-Retourne UNIQUEMENT le JSON, sans commentaire ni explication."""
+JSON :"""
 
 
 SYNTHESIS_SYSTEM_PROMPT = """Tu es un analyste politique senior. On te fournit les résultats d'une analyse CESER vs textes légaux.

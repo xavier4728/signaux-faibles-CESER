@@ -125,8 +125,7 @@ class IngestionService:
         loop = asyncio.get_event_loop()
 
         def _do_parse():
-            import ocrmypdf
-            import pdfplumber
+            import fitz  # PyMuPDF
 
             suffix = Path(filename).suffix.lower()
             with tempfile.NamedTemporaryFile(suffix=suffix, delete=False) as tmp:
@@ -135,27 +134,41 @@ class IngestionService:
 
             try:
                 if suffix == ".pdf":
-                    ocr_path = tmp_path + "_ocr.pdf"
-                    try:
-                        ocrmypdf.ocr(
-                            tmp_path, ocr_path,
-                            language="fra",
-                            skip_text=True,
-                            optimize=0,
-                            progress_bar=False,
-                        )
-                    except ocrmypdf.exceptions.PriorOcrFoundError:
-                        ocr_path = tmp_path
-
                     pages_text: list[tuple[int, str]] = []
-                    with pdfplumber.open(ocr_path) as pdf:
-                        for i, page in enumerate(pdf.pages, start=1):
-                            text = page.extract_text() or ""
-                            if text.strip():
-                                pages_text.append((i, text.strip()))
+                    doc = fitz.open(tmp_path)
+                    total_pages = doc.page_count
+                    for i, page in enumerate(doc, start=1):
+                        text = page.get_text("text") or ""
+                        if text.strip():
+                            pages_text.append((i, text.strip()))
+                    doc.close()
 
-                    if ocr_path != tmp_path:
-                        Path(ocr_path).unlink(missing_ok=True)
+                    text_ratio = len(pages_text) / max(1, total_pages)
+                    if text_ratio < 0.3:
+                        logger.info(f"PyMuPDF: only {len(pages_text)}/{total_pages} pages → OCR fallback for {filename}")
+                        import ocrmypdf
+                        import pdfplumber
+                        ocr_path = tmp_path + "_ocr.pdf"
+                        try:
+                            ocrmypdf.ocr(
+                                tmp_path, ocr_path,
+                                language="fra",
+                                skip_text=True,
+                                optimize=0,
+                                progress_bar=False,
+                            )
+                        except ocrmypdf.exceptions.PriorOcrFoundError:
+                            ocr_path = tmp_path
+
+                        pages_text = []
+                        with pdfplumber.open(ocr_path) as pdf:
+                            for i, page in enumerate(pdf.pages, start=1):
+                                text = page.extract_text() or ""
+                                if text.strip():
+                                    pages_text.append((i, text.strip()))
+
+                        if ocr_path != tmp_path:
+                            Path(ocr_path).unlink(missing_ok=True)
                 else:
                     text = file_content.decode("utf-8", errors="ignore")
                     pages_text = [(1, text)] if text.strip() else []

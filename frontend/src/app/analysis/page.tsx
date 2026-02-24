@@ -82,17 +82,17 @@ function ScoreIcon({ score }: { score: number }) {
     case 2:
       return <CheckCircle2 className="h-5 w-5 text-[var(--color-ceser-green)]" />;
     case 1:
-      return <MinusCircle className="h-5 w-5 text-[var(--color-ceser-gold)]" />;
+      return <MinusCircle className="h-5 w-5 text-[var(--color-ceser-green-light)]" />;
     default:
-      return <XCircle className="h-5 w-5 text-[var(--color-ceser-red)]" />;
+      return <XCircle className="h-5 w-5 text-[var(--color-ceser-neutral)]" />;
   }
 }
 
 function ScoreBadge({ score }: { score: number }) {
   const labels: Record<number, { text: string; variant: "default" | "secondary" | "destructive" }> = {
     2: { text: "Reprise littérale", variant: "default" },
-    1: { text: "Influence indirecte", variant: "secondary" },
-    0: { text: "Non retrouvé", variant: "destructive" },
+    1: { text: "Reprise partielle", variant: "secondary" },
+    0: { text: "Non retrouvé", variant: "secondary" },
   };
   const label = labels[score] || labels[0];
   return <Badge variant={label.variant}>{label.text}</Badge>;
@@ -103,8 +103,8 @@ function SimilarityGauge({ percent }: { percent: number }) {
     percent >= 70
       ? "var(--color-ceser-green)"
       : percent >= 40
-        ? "var(--color-ceser-gold)"
-        : "var(--color-ceser-red)";
+        ? "var(--color-ceser-green-light)"
+        : "var(--color-ceser-neutral)";
 
   return (
     <div className="flex items-center gap-2">
@@ -418,7 +418,7 @@ export default function AnalysisPage() {
             {analysis.status === "failed" && (
               <div className="flex h-48 items-center justify-center text-center">
                 <div>
-                  <XCircle className="mx-auto h-12 w-12 text-[var(--color-ceser-red)]" />
+                  <XCircle className="mx-auto h-12 w-12 text-[var(--color-ceser-neutral)]" />
                   <p className="mt-3 text-sm text-destructive">{analysis.message}</p>
                 </div>
               </div>
@@ -470,8 +470,8 @@ export default function AnalysisPage() {
                 const score0 = analysis.results.filter((r) => !r.match || r.match.score_reutilisation === 0).length;
                 const pieData = [
                   { name: "Reprise littérale", value: score2, color: "var(--color-ceser-green)" },
-                  { name: "Influence indirecte", value: score1, color: "var(--color-ceser-gold)" },
-                  { name: "Non retrouvé", value: score0, color: "var(--color-ceser-red)" },
+                  { name: "Reprise partielle", value: score1, color: "var(--color-ceser-green-light)" },
+                  { name: "Non retrouvé", value: score0, color: "var(--color-ceser-neutral)" },
                 ].filter((d) => d.value > 0);
                 return (
                   <div className="space-y-3">
@@ -537,7 +537,7 @@ export default function AnalysisPage() {
                     <Tooltip />
                     <Legend wrapperStyle={{ fontSize: 11 }} />
                     <Bar dataKey="Reprises" stackId="a" fill="var(--color-ceser-green)" radius={[0, 0, 0, 0]} />
-                    <Bar dataKey="Non reprises" stackId="a" fill="var(--color-ceser-red)" radius={[0, 4, 4, 0]} />
+                    <Bar dataKey="Non reprises" stackId="a" fill="var(--color-ceser-neutral)" radius={[0, 4, 4, 0]} />
                   </BarChart>
                 </ResponsiveContainer>
               </CardContent>

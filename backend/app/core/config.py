@@ -19,6 +19,8 @@ class Settings(BaseSettings):
     CHILD_CHUNK_SIZE: int = 512
     CHILD_CHUNK_OVERLAP: int = 64
     TOP_K_RESULTS: int = 5
+    EXTRACTION_PAGES_PER_CHUNK: int = 10
+    EXTRACTION_PAGES_OVERLAP: int = 1
 
     MAX_CONCURRENT_LLM_CALLS: int = 5
 

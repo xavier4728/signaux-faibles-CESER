@@ -16,13 +16,14 @@ from app.models.schemas import (
 from app.prompts.extraction import (
     EXTRACTION_SYSTEM_PROMPT,
     EXTRACTION_USER_PROMPT,
+    REDUCE_SYSTEM_PROMPT,
+    REDUCE_USER_PROMPT,
     VALIDATION_SYSTEM_PROMPT,
     VALIDATION_USER_PROMPT,
     SYNTHESIS_SYSTEM_PROMPT,
     SYNTHESIS_USER_PROMPT,
 )
 from app.services.task_manager import task_manager
-from app.services.dashboard_service import dashboard_service
 from app.services.vector_store import VectorStoreManager
 
 
@@ -225,8 +226,9 @@ class RAGPipeline:
 
             task_manager.update_task(task_id, progress=0.15, message=f"{len(segments)} segments prêts")
 
-            # --- ÉTAPE 2 : Extraction LLM ---
-            logger.info(f"[{task_id}] ÉTAPE 2 : Extraction des préconisations ({len(segments)} segments)...")
+            # --- ÉTAPE 2 : Extraction + Consolidation (Map-Reduce) ---
+            logger.info(f"[{task_id}] ÉTAPE 2 : Extraction Map-Reduce ({len(segments)} segments)...")
+            task_manager.update_task(task_id, progress=0.20, message="Extraction des préconisations (Map)...")
             preconisations = await self._extract_preconisations(segments, source_doc)
 
             if not preconisations:
@@ -235,19 +237,21 @@ class RAGPipeline:
                     task_id=task_id, status="completed", source_document=source_doc,
                     total_preconisations=0, matched_preconisations=0, taux_conversion=0.0, results=[]
                 )
-                dashboard_service.save_analysis_result(empty_result)
                 task_manager.update_task(task_id, status="completed", progress=1.0, result=empty_result, message="Aucune préconisation")
                 return
 
-            task_manager.update_task(task_id, progress=0.40, message=f"{len(preconisations)} précos extraites")
+            logger.info(f"[{task_id}] ÉTAPE 2 OK : {len(preconisations)} préconisations consolidées")
+            task_manager.update_task(task_id, progress=0.45, message=f"{len(preconisations)} précos consolidées")
 
             # --- ÉTAPE 3 : Recherche Vectorielle (toujours sur la base légale) ---
             logger.info(f"[{task_id}] ÉTAPE 3 : Recherche vectorielle sur la base légale...")
+            task_manager.update_task(task_id, progress=0.50, message="Recherche dans la base légale...")
             legal_contexts = await self._search_legal_base(preconisations)
             task_manager.update_task(task_id, progress=0.60, message="Contexte légal récupéré")
 
             # --- ÉTAPE 4 : Validation et Scoring ---
             logger.info(f"[{task_id}] ÉTAPE 4 : Validation croisée...")
+            task_manager.update_task(task_id, progress=0.65, message="Validation et scoring (LLM)...")
             results = await self._validate_matches(preconisations, legal_contexts)
 
             matched = sum(1 for r in results if r.match and r.match.score_reutilisation > 0)
@@ -256,6 +260,7 @@ class RAGPipeline:
 
             # --- ÉTAPE 5 : Synthèse & Sauvegarde ---
             logger.info(f"[{task_id}] ÉTAPE 5 : Synthèse...")
+            task_manager.update_task(task_id, progress=0.90, message="Synthèse analytique (LLM)...")
             synthese, categories = await self._generate_synthesis(results, source_doc, total, matched, taux)
 
             final_result = AnalysisResult(
@@ -269,11 +274,6 @@ class RAGPipeline:
                 categories=categories,
                 results=results,
             )
-
-            try:
-                dashboard_service.save_analysis_result(final_result)
-            except Exception as e:
-                logger.error(f"[{task_id}] Erreur sauvegarde dashboard: {e}")
 
             task_manager.update_task(
                 task_id,
@@ -298,8 +298,7 @@ class RAGPipeline:
             loop = asyncio.get_event_loop()
 
             def _do_parse():
-                import ocrmypdf
-                import pdfplumber
+                import fitz  # PyMuPDF
 
                 suffix = Path(filename).suffix.lower()
                 with tempfile.NamedTemporaryFile(suffix=suffix, delete=False) as tmp:
@@ -308,44 +307,69 @@ class RAGPipeline:
 
                 try:
                     if suffix == ".pdf":
-                        ocr_path = tmp_path + "_ocr.pdf"
-                        try:
-                            ocrmypdf.ocr(
-                                tmp_path, ocr_path,
-                                language="fra",
-                                skip_text=True,
-                                optimize=0,
-                                progress_bar=False,
-                            )
-                        except ocrmypdf.exceptions.PriorOcrFoundError:
-                            ocr_path = tmp_path
+                        pages_text: list[tuple[int, str]] = []
+                        doc = fitz.open(tmp_path)
+                        total_pages = doc.page_count
+                        for i, page in enumerate(doc, start=1):
+                            text = page.get_text("text") or ""
+                            if text.strip():
+                                pages_text.append((i, text.strip()))
+                        doc.close()
 
-                        pages_text = []
-                        with pdfplumber.open(ocr_path) as pdf:
-                            for i, page in enumerate(pdf.pages, start=1):
-                                text = page.extract_text() or ""
-                                if text.strip():
-                                    pages_text.append((i, text.strip()))
+                        text_ratio = len(pages_text) / max(1, total_pages)
+                        if text_ratio < 0.3:
+                            logger.info(f"[{task_id}] PyMuPDF: only {len(pages_text)}/{total_pages} pages with text → OCR fallback")
+                            import ocrmypdf
+                            import pdfplumber
+                            ocr_path = tmp_path + "_ocr.pdf"
+                            try:
+                                ocrmypdf.ocr(
+                                    tmp_path, ocr_path,
+                                    language="fra",
+                                    skip_text=True,
+                                    optimize=0,
+                                    progress_bar=False,
+                                )
+                            except ocrmypdf.exceptions.PriorOcrFoundError:
+                                ocr_path = tmp_path
 
-                        if ocr_path != tmp_path:
-                            Path(ocr_path).unlink(missing_ok=True)
+                            pages_text = []
+                            with pdfplumber.open(ocr_path) as pdf:
+                                for i, page in enumerate(pdf.pages, start=1):
+                                    text = page.extract_text() or ""
+                                    if text.strip():
+                                        pages_text.append((i, text.strip()))
+
+                            if ocr_path != tmp_path:
+                                Path(ocr_path).unlink(missing_ok=True)
+                        else:
+                            logger.info(f"[{task_id}] PyMuPDF: {len(pages_text)}/{total_pages} pages extracted (fast path)")
                     else:
                         text = file_content.decode("utf-8", errors="ignore")
                         pages_text = [(1, text)] if text.strip() else []
 
+                    chunk_size = settings.EXTRACTION_PAGES_PER_CHUNK
+                    overlap = settings.EXTRACTION_PAGES_OVERLAP
+                    stride = max(1, chunk_size - overlap)
                     segments = []
-                    for page_num, page_text in pages_text:
-                        start = 0
-                        while start < len(page_text):
-                            end = start + settings.CHILD_CHUNK_SIZE
-                            chunk = page_text[start:end]
-                            if chunk.strip():
-                                segments.append({
-                                    "text": chunk.strip(),
-                                    "source_doc": filename,
-                                    "page": page_num,
-                                })
-                            start += settings.CHILD_CHUNK_SIZE - settings.CHILD_CHUNK_OVERLAP
+                    for i in range(0, len(pages_text), stride):
+                        group = pages_text[i:i + chunk_size]
+                        if not group:
+                            break
+                        combined_text = "\n\n".join(
+                            f"[Page {pnum}]\n{ptxt}" for pnum, ptxt in group
+                        )
+                        if combined_text.strip():
+                            first_page = group[0][0]
+                            last_page = group[-1][0]
+                            segments.append({
+                                "text": combined_text.strip(),
+                                "source_doc": filename,
+                                "page": first_page,
+                                "page_range": f"{first_page}-{last_page}",
+                            })
+                        if i + chunk_size >= len(pages_text):
+                            break
 
                     return segments
                 finally:
@@ -388,6 +412,7 @@ class RAGPipeline:
             return response.choices[0].message.content or "[]"
 
     async def _extract_preconisations(self, segments: list[dict], source_doc: str) -> list[Preconisation]:
+        # ── PHASE MAP : extraction parallèle par segment ──
         async def extract_one(idx: int, segment: dict) -> list[Preconisation]:
             user_prompt = EXTRACTION_USER_PROMPT.format(
                 source_doc=segment["source_doc"],
@@ -402,23 +427,90 @@ class RAGPipeline:
                 if not isinstance(data, list):
                     data = [data] if isinstance(data, dict) else []
                 precos = [Preconisation(**item) for item in data if isinstance(item, dict) and "preconisation" in item]
+                logger.debug(f"  [Map seg {idx+1}/{len(segments)}] {len(precos)} précos brutes")
                 return precos
             except Exception as e:
-                logger.warning(f"  [Extraction seg {idx+1}] ÉCHEC: {e}")
+                logger.warning(f"  [Map seg {idx+1}] ÉCHEC: {e}")
                 return []
 
         tasks = [extract_one(i, seg) for i, seg in enumerate(segments)]
         results = await asyncio.gather(*tasks, return_exceptions=True)
 
-        all_precos: list[Preconisation] = []
+        raw_precos: list[Preconisation] = []
         counter = 1
         for result in results:
             if isinstance(result, list):
                 for preco in result:
                     preco.id = counter
                     counter += 1
-                    all_precos.append(preco)
-        return all_precos
+                    raw_precos.append(preco)
+
+        logger.info(f"  [Map] Total brut : {len(raw_precos)} précos extraites de {len(segments)} segments")
+
+        # ── PHASE REDUCE : consolidation & dédoublonnage via LLM ──
+        if len(raw_precos) <= 5:
+            return raw_precos
+
+        return await self._reduce_preconisations(raw_precos, source_doc)
+
+    async def _reduce_preconisations(self, raw_precos: list[Preconisation], source_doc: str) -> list[Preconisation]:
+        raw_lines = "\n".join(
+            f"#{p.id} (p.{p.page}): \"{p.preconisation}\""
+            for p in raw_precos
+        )
+
+        MAX_REDUCE_BATCH = 80
+
+        if len(raw_precos) > MAX_REDUCE_BATCH:
+            logger.info(f"  [Reduce] {len(raw_precos)} précos > {MAX_REDUCE_BATCH} → reduce en plusieurs passes")
+            batches = [raw_precos[i:i + MAX_REDUCE_BATCH] for i in range(0, len(raw_precos), MAX_REDUCE_BATCH)]
+            intermediate: list[Preconisation] = []
+
+            for batch_idx, batch in enumerate(batches):
+                batch_lines = "\n".join(f"#{p.id} (p.{p.page}): \"{p.preconisation}\"" for p in batch)
+                user_prompt = REDUCE_USER_PROMPT.format(
+                    count=len(batch), source_doc=source_doc, raw_precos=batch_lines
+                )
+                try:
+                    raw = await self._call_llm(REDUCE_SYSTEM_PROMPT, user_prompt)
+                    data = json.loads(raw)
+                    items = data.get("preconisations", data if isinstance(data, list) else [])
+                    for item in items:
+                        if isinstance(item, dict) and "preconisation" in item:
+                            item["source_doc"] = item.get("source_doc", source_doc)
+                            intermediate.append(Preconisation(**item))
+                    logger.info(f"  [Reduce batch {batch_idx+1}/{len(batches)}] {len(batch)} → {len(items)} précos")
+                except Exception as e:
+                    logger.warning(f"  [Reduce batch {batch_idx+1}] ÉCHEC: {e} → on garde le brut")
+                    intermediate.extend(batch)
+
+            if len(intermediate) > MAX_REDUCE_BATCH:
+                return await self._reduce_preconisations(intermediate, source_doc)
+            raw_precos = intermediate
+            raw_lines = "\n".join(f"#{p.id} (p.{p.page}): \"{p.preconisation}\"" for p in raw_precos)
+
+        user_prompt = REDUCE_USER_PROMPT.format(
+            count=len(raw_precos), source_doc=source_doc, raw_precos=raw_lines
+        )
+
+        try:
+            raw = await self._call_llm(REDUCE_SYSTEM_PROMPT, user_prompt)
+            data = json.loads(raw)
+            items = data.get("preconisations", data if isinstance(data, list) else [])
+            consolidated: list[Preconisation] = []
+            for item in items:
+                if isinstance(item, dict) and "preconisation" in item:
+                    item["source_doc"] = item.get("source_doc", source_doc)
+                    consolidated.append(Preconisation(**item))
+
+            for i, p in enumerate(consolidated, start=1):
+                p.id = i
+
+            logger.info(f"  [Reduce] {len(raw_precos)} brutes → {len(consolidated)} consolidées")
+            return consolidated
+        except Exception as e:
+            logger.warning(f"  [Reduce] ÉCHEC: {e} → fallback sur les précos brutes")
+            return raw_precos
 
     async def _search_legal_base(self, preconisations: list[Preconisation]) -> dict[int, list[dict]]:
         """

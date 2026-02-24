@@ -1,98 +1,136 @@
 import json
-from pathlib import Path
 from loguru import logger
 from app.core.config import settings
-from app.services.vector_store import VectorStoreManager
-from app.models.schemas import AnalysisResult
-from app.models.dashboard import DashboardResponse, KpiStats, RegionStat
+from app.models.dashboard import (
+    DashboardResponse, KpiStats, RegionStat,
+    ScoreDistribution, SimilarityBucket, DocumentRanking, LegalReference,
+)
+
 
 class DashboardService:
     def __init__(self):
-        # On stocke le fichier JSON dans le même dossier que les index FAISS pour la persistance
         self.store_path = settings.FAISS_INDEX_DIR / "analytics_store.json"
-        self.vector_store = VectorStoreManager()
-        self._ensure_store()
 
-    def _ensure_store(self):
-        """Crée le fichier JSON s'il n'existe pas."""
+    def _load_store(self) -> dict:
         if not self.store_path.exists():
-            try:
-                with open(self.store_path, "w", encoding="utf-8") as f:
-                    json.dump({"analyses": []}, f)
-            except Exception as e:
-                logger.error(f"Erreur lors de la création du store analytics: {e}")
-
-    def _load_analyses(self) -> list[dict]:
-        """Charge l'historique des analyses."""
-        if not self.store_path.exists():
-            return []
+            return {}
         try:
             with open(self.store_path, "r", encoding="utf-8") as f:
-                data = json.load(f)
-                return data.get("analyses", [])
+                return json.load(f)
         except Exception as e:
             logger.error(f"Erreur lecture analytics store: {e}")
-            return []
-
-    def save_analysis_result(self, result: AnalysisResult):
-        """Appelé à la fin d'une analyse pour sauvegarder les stats."""
-        try:
-            data = self._load_analyses()
-            
-            # Éviter les doublons basiques (si on ré-analyse le même doc le même jour, on pourrait affiner ici)
-            # Pour l'instant on ajoute tout pour avoir l'historique complet
-            
-            analysis_summary = {
-                "task_id": result.task_id,
-                "source_document": result.source_document,
-                "total_precos": result.total_preconisations,
-                "matched_precos": result.matched_preconisations,
-                "taux_conversion": result.taux_conversion,
-                # On pourrait ajouter un timestamp ici si AnalysisResult en avait un
-            }
-            
-            data.append(analysis_summary)
-            
-            with open(self.store_path, "w", encoding="utf-8") as f:
-                json.dump({"analyses": data}, f, indent=2, ensure_ascii=False)
-            
-            logger.info(f"Stats Dashboard sauvegardées pour {result.source_document}")
-        except Exception as e:
-            logger.error(f"Impossible de sauvegarder les stats dashboard: {e}")
+            return {}
 
     def get_global_stats(self) -> DashboardResponse:
-        """Agrège les données pour le frontend."""
-        # 1. Récupérer les données d'ingestion (Vector Store)
-        try:
-            docs = self.vector_store.list_documents()
-            # Set pour compter les régions uniques
-            regions = {doc.metadata.region for doc in docs if doc.metadata.region}
-            nb_docs = len(docs)
-        except Exception as e:
-            logger.error(f"Erreur lecture VectorStore pour stats: {e}")
-            docs = []
-            regions = set()
-            nb_docs = 0
-        
-        # 2. Récupérer les données d'analyse (Analytics Store)
-        analyses = self._load_analyses()
-        
-        total_precos = sum(a.get("total_precos", 0) for a in analyses)
-        total_matched = sum(a.get("matched_precos", 0) for a in analyses)
-        
-        # Calcul du taux global (moyenne pondérée)
-        taux_global = (total_matched / total_precos * 100) if total_precos > 0 else 0.0
+        store = self._load_store()
+        kpis_data = store.get("global_kpis", {})
+        regions_data = store.get("regions", {})
 
-        # 3. Construire la réponse
+        region_stats = []
+        all_docs: list[DocumentRanking] = []
+        global_s0, global_s1, global_s2 = 0, 0, 0
+        all_similarities: list[float] = []
+        legal_counter: dict[str, int] = {}
+
+        for region_id, rdata in regions_data.items():
+            r_s0, r_s1, r_s2 = 0, 0, 0
+
+            for doc in rdata.get("documents", []):
+                s0 = doc.get("score_0_count", 0)
+                s1 = doc.get("score_1_count", 0)
+                s2 = doc.get("score_2_count", 0)
+                r_s0 += s0
+                r_s1 += s1
+                r_s2 += s2
+
+                all_docs.append(DocumentRanking(
+                    filename=doc.get("filename", ""),
+                    region=rdata.get("label", region_id),
+                    total_precos=doc.get("total_precos", 0),
+                    matched_precos=doc.get("matched_precos", 0),
+                    taux_conversion=doc.get("taux_conversion", 0.0),
+                    avg_similarity=doc.get("avg_similarity", 0.0),
+                    score_2_count=s2,
+                    score_1_count=s1,
+                    score_0_count=s0,
+                ))
+
+                for preco in doc.get("preconisations", []):
+                    if preco.get("score", 0) > 0:
+                        all_similarities.append(preco.get("similarite", 0.0))
+                    legal = preco.get("legal_doc", "")
+                    if legal:
+                        legal_counter[legal] = legal_counter.get(legal, 0) + 1
+
+            global_s0 += r_s0
+            global_s1 += r_s1
+            global_s2 += r_s2
+
+            region_stats.append(RegionStat(
+                region=rdata.get("label", region_id),
+                region_id=region_id,
+                documents_count=rdata.get("documents_count", 0),
+                total_precos=rdata.get("total_precos", 0),
+                matched_precos=rdata.get("matched_precos", 0),
+                taux_conversion=rdata.get("taux_conversion", 0.0),
+                score_2_count=r_s2,
+                score_1_count=r_s1,
+                score_0_count=r_s0,
+            ))
+
+        # Similarity histogram buckets
+        buckets = [
+            SimilarityBucket(range="25-40%", count=0),
+            SimilarityBucket(range="40-55%", count=0),
+            SimilarityBucket(range="55-70%", count=0),
+            SimilarityBucket(range="70-85%", count=0),
+            SimilarityBucket(range="85-100%", count=0),
+        ]
+        for s in all_similarities:
+            if s < 40:
+                buckets[0].count += 1
+            elif s < 55:
+                buckets[1].count += 1
+            elif s < 70:
+                buckets[2].count += 1
+            elif s < 85:
+                buckets[3].count += 1
+            else:
+                buckets[4].count += 1
+
+        # Sort docs by taux_conversion for rankings
+        sorted_docs = sorted(all_docs, key=lambda d: d.taux_conversion, reverse=True)
+        top_docs = sorted_docs[:8]
+        bottom_docs = sorted(all_docs, key=lambda d: d.taux_conversion)[:8]
+
+        # Top legal references
+        top_legal = [
+            LegalReference(legal_doc=doc, citation_count=count)
+            for doc, count in sorted(legal_counter.items(), key=lambda x: -x[1])[:10]
+        ]
+
         return DashboardResponse(
             kpis=KpiStats(
-                taux_conversion_global=round(taux_global, 1),
-                documents_analyses=nb_docs,
-                regions_couvertes=len(regions),
-                preconisations_extraites=total_precos
+                taux_conversion_global=kpis_data.get("taux_conversion", 0.0),
+                documents_analyses=kpis_data.get("documents_count", 0),
+                regions_couvertes=kpis_data.get("regions_count", 0),
+                preconisations_extraites=kpis_data.get("total_precos", 0),
+                preconisations_matchees=kpis_data.get("matched_precos", 0),
             ),
-            comparateur_regional=[] # TODO: Implémenter le détail par région plus tard
+            comparateur_regional=region_stats,
+            score_distribution=ScoreDistribution(
+                score_0=global_s0, score_1=global_s1, score_2=global_s2,
+            ),
+            similarity_buckets=buckets,
+            top_documents=top_docs,
+            bottom_documents=bottom_docs,
+            top_legal_refs=top_legal,
         )
 
-# Instance singleton exportée pour être utilisée dans le router et le pipeline
+    def get_region_detail(self, region_id: str) -> dict | None:
+        store = self._load_store()
+        regions = store.get("regions", {})
+        return regions.get(region_id)
+
+
 dashboard_service = DashboardService()
