@@ -151,7 +151,7 @@ export default function DashboardPage() {
 
   const regionChartData = stats
     ? [...stats.comparateur_regional]
-        .sort((a, b) => b.taux_conversion - a.taux_conversion)
+        .sort((a, b) => a.region.localeCompare(b.region))
         .map((r) => ({
           name: r.region,
           "Reprises directes": r.score_2_count,
@@ -445,7 +445,7 @@ export default function DashboardPage() {
                     <ResponsiveContainer width="100%" height={180}>
                       <BarChart
                         data={[...stats.comparateur_regional].sort(
-                          (a, b) => b.documents_count - a.documents_count
+                          (a, b) => a.region.localeCompare(b.region)
                         )}
                         margin={{ left: 0, right: 10, top: 5, bottom: 5 }}
                       >
@@ -489,7 +489,7 @@ export default function DashboardPage() {
                               (r.total_precos / r.documents_count) * 10
                             ) / 10,
                           }))
-                          .sort((a, b) => b.moy_precos - a.moy_precos)}
+                          .sort((a, b) => a.region.localeCompare(b.region))}
                         margin={{ left: 0, right: 10, top: 5, bottom: 5 }}
                       >
                         <XAxis

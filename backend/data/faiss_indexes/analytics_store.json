@@ -8038,9 +8038,9 @@
     "ceser_centre_val_de_loire": {
       "label": "Centre-Val de Loire",
       "documents_count": 28,
-      "total_precos": 410,
+      "total_precos": 260,
       "matched_precos": 64,
-      "taux_conversion": 15.6,
+      "taux_conversion": 24.6,
       "documents": [
         {
           "filename": "CONTRIB_CESER_ACCES_ALIM.pdf",
@@ -9996,12 +9996,12 @@
         },
         {
           "filename": "Fret-ferroviaire-rapport.pdf",
-          "total_precos": 15,
+          "total_precos": 14,
           "matched_precos": 0,
           "taux_conversion": 0.0,
           "score_2_count": 0,
           "score_1_count": 0,
-          "score_0_count": 15,
+          "score_0_count": 14,
           "avg_similarity": 0.0,
           "preconisations": [
             {
@@ -10115,43 +10115,19 @@
               "score": 0,
               "similarite": 10.0,
               "legal_doc": ""
-            },
-            {
-              "id": 15,
-              "text": "La Région Centre-Val de Loire doit voir le fret ferroviaire comme un outil économique, moteur pour développer les coopérations interrégionales sur les projets structurants, et se positionner comme coordinatrice des démarches sous l’angle économique, en proposant une stratégie territoriale dans le ca",
-              "page": 56,
-              "score": 0,
-              "similarite": 10.0,
-              "legal_doc": ""
             }
           ]
         },
         {
           "filename": "GT_contrib_logement_saisonniers_VF-1.pdf",
-          "total_precos": 15,
+          "total_precos": 1,
           "matched_precos": 1,
-          "taux_conversion": 6.7,
+          "taux_conversion": 100.0,
           "score_2_count": 0,
           "score_1_count": 1,
-          "score_0_count": 14,
+          "score_0_count": 0,
           "avg_similarity": 50.0,
           "preconisations": [
-            {
-              "id": 1,
-              "text": "Le CESER Centre-Val de Loire préconise de généraliser la mise à disposition des structures d’accueil collectif à destination des jeunes apprenants tels que les internats de lycées, les résidences CFA ou universitaires, les MFR, et d’associer à la gestion de ces établissements un partenaire spécialis",
-              "page": 4,
-              "score": 0,
-              "similarite": 10.0,
-              "legal_doc": ""
-            },
-            {
-              "id": 2,
-              "text": "Un avantage fiscal pour le particulier ou pour l’entreprise (accès privilégié pour leurs salariés saisonniers) serait à envisager. Cet avantage fiscal pourrait être financé par une reprise totale ou partielle des avantages fiscaux liés aux locations de type AIRBNB.",
-              "page": 5,
-              "score": 0,
-              "similarite": 10.0,
-              "legal_doc": ""
-            },
             {
               "id": 3,
               "text": "Le CESER préconise de faciliter et d’inciter à la réhabilitation de logements vacants (immeubles ou maisons) dans un double but de réhabiliter les centre-bourgs en milieu rural, et de créer de nouveaux logements pour différentes catégories d’actifs, dont les saisonniers.",
@@ -10159,155 +10135,19 @@
               "score": 1,
               "similarite": 50.0,
               "legal_doc": "l15b1460_rapport-information.pdf"
-            },
-            {
-              "id": 4,
-              "text": "Le CESER demande que les programmes de création ou rénovation d’hébergement pour les saisonniers puissent être accompagnés dans le cadre du Cap Tourisme.",
-              "page": 5,
-              "score": 0,
-              "similarite": 10.0,
-              "legal_doc": ""
-            },
-            {
-              "id": 5,
-              "text": "Le CESER recommande de mettre en place une stratégie régionale ad-hoc avec pour instance coordinatrice et incitatrice possiblement la Région (action qu’elle pourrait mener dans le cadre de son SRADDET).",
-              "page": 6,
-              "score": 0,
-              "similarite": 10.0,
-              "legal_doc": ""
-            },
-            {
-              "id": 6,
-              "text": "Le CESER préconise de simplifier et rendre plus efficace l’information sur le logement en généralisant les Agences Départementales pour l’Information sur le Logement (ADIL) dont quelques départements ne disposent pas, dont le Cher.",
-              "page": 6,
-              "score": 0,
-              "similarite": 10.0,
-              "legal_doc": ""
-            },
-            {
-              "id": 7,
-              "text": "Le CESER recommande de favoriser la mixité des projets portés par des financements croisés remplissant des objectifs diversifiés (exemple cité additionnant internats de MFR, logements CROUS et FJT), de développer l’évolutivité et la modularité des logements afin de multiplier les usages potentiels, ",
-              "page": 6,
-              "score": 0,
-              "similarite": 10.0,
-              "legal_doc": ""
-            },
-            {
-              "id": 8,
-              "text": "Le CESER recommande de renforcer l’offre spécifique pour les alternants avec la mise en place d’un service Logement Jeunes régional mutualisé, de développer les Services Logement Jeunes (SLJ) intervenant à des échelles locales pour accompagner tous les jeunes de 16 à 30 ans dans leur recherche de lo",
-              "page": 6,
-              "score": 0,
-              "similarite": 10.0,
-              "legal_doc": ""
-            },
-            {
-              "id": 9,
-              "text": "Le CESER recommande de systématiser à l’arrivée une formation aux offres touristiques locales pour les nouveaux professionnels, via des journées d’accueil en présaison, a minima à l’échelle locale, et d’envisager une journée de fin de saison pour remercier les saisonniers, les fidéliser et les infor",
-              "page": 7,
-              "score": 0,
-              "similarite": 10.0,
-              "legal_doc": ""
-            },
-            {
-              "id": 10,
-              "text": "Le CESER recommande le développement d’outils pédagogiques (vidéos courtes, application interactive et ludique de formation) pour aider les professionnels à mieux orienter les visiteurs, incluant des modules de langues étrangères, a minima l’ « anglais-tourisme », et la création d’une « carte de pro",
-              "page": 7,
-              "score": 0,
-              "similarite": 10.0,
-              "legal_doc": ""
-            },
-            {
-              "id": 11,
-              "text": "Le CESER préconise de favoriser le financement de formations « gestes et postures » pour consolider la bonne santé physique sur des postes sollicitants et réduire la pénibilité des métiers, via les OPCO, et de promouvoir les « Visa Libres Savoirs trois en un » auprès des salariés et des entreprises ",
-              "page": 9,
-              "score": 0,
-              "similarite": 10.0,
-              "legal_doc": ""
-            },
-            {
-              "id": 12,
-              "text": "Le CESER préconise de créer des enseignements de langue française auprès des travailleurs détachés pour favoriser la pérennisation d’une main d’œuvre importante pour le secteur agricole notamment (passer de la prestation au contrat de travail), via possiblement un Visa Libre Savoir dédié.",
-              "page": 9,
-              "score": 0,
-              "similarite": 10.0,
-              "legal_doc": ""
-            },
-            {
-              "id": 13,
-              "text": "Le CESER recommande de développer l’aide à l’achat de véhicules de mobilité douce tels que les deux-roues électriques, et pour les non-résidents, un prêt pourrait être envisagé porté par les Autorités Organisatrices de Mobilité (AOM) compétentes, ainsi que de proposer des dispositifs de mobilités de",
-              "page": 8,
-              "score": 0,
-              "similarite": 10.0,
-              "legal_doc": ""
-            },
-            {
-              "id": 14,
-              "text": "Créer les conditions d’accueil adéquat pour les salariés saisonniers comprenant hébergement (avec un coût de loyer adapté, tenant compte du fait que ces salariés peuvent avoir à payer par ailleurs un logement principal) incluant des avantages fiscaux pour les acteurs porteurs de solutions, animation",
-              "page": 10,
-              "score": 0,
-              "similarite": 10.0,
-              "legal_doc": ""
-            },
-            {
-              "id": 15,
-              "text": "Déployer un plan de communication national pour la promotion de la région Centre Val de Loire comme destination de travail pour les saisonniers. Ce plan doit être complété par un plan d’accueil et de fidélisation via un accompagnement tout au long de la saison, et faire connaître les dispositifs exi",
-              "page": 10,
-              "score": 0,
-              "similarite": 10.0,
-              "legal_doc": ""
             }
           ]
         },
         {
           "filename": "INTER_CESER_ALIM_20250430.pdf",
-          "total_precos": 11,
+          "total_precos": 3,
           "matched_precos": 3,
-          "taux_conversion": 27.3,
+          "taux_conversion": 100.0,
           "score_2_count": 0,
           "score_1_count": 3,
-          "score_0_count": 8,
+          "score_0_count": 0,
           "avg_similarity": 41.7,
           "preconisations": [
-            {
-              "id": 1,
-              "text": "Un travail devrait pouvoir être engagé de manière à ce que les appels d’offres puissent exiger les critères qui mènent à des produits locaux et Bio, notamment en spécifiant un nombre de kilomètres maximum du lieu de consommation (ex. : poulet local respectant les contraintes françaises).",
-              "page": 5,
-              "score": 0,
-              "similarite": 10.0,
-              "legal_doc": ""
-            },
-            {
-              "id": 2,
-              "text": "La formation continue demande à être renforcée tant auprès des publics les plus fragiles (par exemple l’intégration d’ateliers dans les parcours d’accompagnement RSA) que des salariés, notamment pour favoriser l’innovation dans les entreprises artisanales.",
-              "page": 7,
-              "score": 0,
-              "similarite": 10.0,
-              "legal_doc": ""
-            },
-            {
-              "id": 3,
-              "text": "Il serait pertinent d'encourager des interactions entre plusieurs secteurs : tourisme, développement économique, santé, communication vers le grand public et bien sûr orientation et formation, copilotées par les trois consulaires dans le cadre des actions régionales.",
-              "page": 8,
-              "score": 0,
-              "similarite": 10.0,
-              "legal_doc": ""
-            },
-            {
-              "id": 4,
-              "text": "La stratégie à mettre en œuvre consiste à remédier aux différentes faiblesses identifiées dans l’état des lieux par : une alimentation suffisante en quantité et de qualité, accessible à chacun ; le développement à grande échelle du maraîchage (fruits et légumes) ; une diminution de la consommation d",
-              "page": 9,
-              "score": 0,
-              "similarite": 10.0,
-              "legal_doc": ""
-            },
-            {
-              "id": 5,
-              "text": "Le CESER préconise de renforcer le soutien aux agriculteurs des territoires par la commande publique.",
-              "page": 13,
-              "score": 0,
-              "similarite": 10.0,
-              "legal_doc": ""
-            },
             {
               "id": 6,
               "text": "Le CESER préconise de développer les programmes alimentaires de territoires (PAT), les drives fermiers, et les « Maisons de l’alimentation durable ».",
@@ -10315,22 +10155,6 @@
               "score": 1,
               "similarite": 40.0,
               "legal_doc": "l16b2113_rapport-information.pdf"
-            },
-            {
-              "id": 7,
-              "text": "Le CESER préconise de favoriser l’implantation et le développement dans les territoires des franges franciliennes d’usines de transformation agroalimentaires, ainsi que la diversification des exploitations avec des formes d’agriculture innovantes.",
-              "page": 13,
-              "score": 0,
-              "similarite": 10.0,
-              "legal_doc": ""
-            },
-            {
-              "id": 8,
-              "text": "Le CESER préconise de développer dans les territoires des franges franciliennes les CIVAM (Centre d’Initiatives pour Valoriser l’Agriculture et le Milieu rural) ainsi que des GDA (Groupes de Développement Agricole).",
-              "page": 13,
-              "score": 0,
-              "similarite": 10.0,
-              "legal_doc": ""
             },
             {
               "id": 9,
@@ -10347,191 +10171,30 @@
               "score": 1,
               "similarite": 45.0,
               "legal_doc": "l15b1460_rapport-information.pdf"
-            },
-            {
-              "id": 11,
-              "text": "Que l’alimentation en milieu hospitalier et médico-social soit intégrée pleinement dans la réflexion des Assises régionales de l’alimentation, et que des mesures de soutien soient envisagées pour accompagner ces établissements, souvent en grande difficulté budgétaire.",
-              "page": 16,
-              "score": 0,
-              "similarite": 10.0,
-              "legal_doc": ""
             }
           ]
         },
         {
           "filename": "Octobre-2023-Bilan-des-aides-economiques.pdf",
-          "total_precos": 12,
+          "total_precos": 0,
           "matched_precos": 0,
           "taux_conversion": 0.0,
           "score_2_count": 0,
           "score_1_count": 0,
-          "score_0_count": 12,
+          "score_0_count": 0,
           "avg_similarity": 0.0,
-          "preconisations": [
-            {
-              "id": 1,
-              "text": "Le CESER renouvelle son souhait de bénéficier des données permettant de différencier les types d’entreprises concernées (secteur d’activité, taille d’entreprise), et ceci par département.",
-              "page": 4,
-              "score": 0,
-              "similarite": 10.0,
-              "legal_doc": ""
-            },
-            {
-              "id": 2,
-              "text": "Le CESER regrette qu’il ne soit plus fait mention dans le document de la répartition de ces aides au niveau des départements et demande à disposer d’un tableau synthétique résumant les différents concours financiers dans le domaine de l’agriculture (européens, nationaux, régionaux et départementaux)",
-              "page": 5,
-              "score": 0,
-              "similarite": 10.0,
-              "legal_doc": ""
-            },
-            {
-              "id": 3,
-              "text": "Accroître l’attractivité des métiers des secteurs en lien avec le tourisme, en construisant une offre globale autour de l’attractivité des grands sites pour une expérience à 360°, et en croisant les politiques d’attractivité-ancrage territorial et de tourisme(s).",
-              "page": 5,
-              "score": 0,
-              "similarite": 10.0,
-              "legal_doc": ""
-            },
-            {
-              "id": 4,
-              "text": "Créer plus de liant entre chaque acteur compétent en économie touristique, renforcer les Offices de tourisme dans leur pilotage et leurs missions, et anticiper les besoins des acteurs pour un tourisme écoresponsable et durable.",
-              "page": 5,
-              "score": 0,
-              "similarite": 10.0,
-              "legal_doc": ""
-            },
-            {
-              "id": 5,
-              "text": "Sensibiliser les acteurs du tourisme et leurs visiteurs aux enjeux de biodiversité.",
-              "page": 5,
-              "score": 0,
-              "similarite": 10.0,
-              "legal_doc": ""
-            },
-            {
-              "id": 6,
-              "text": "Promouvoir, détecter et amorcer les dynamiques collaboratives d’entreprises en créant un « Salon régional des Clusters et Pôles de compétitivité » pour informer sur ces initiatives, et en mettant Dév’Up en animation collective des structures. Accompagner les clusters sur le moyen terme pour les soli",
-              "page": 7,
-              "score": 0,
-              "similarite": 10.0,
-              "legal_doc": ""
-            },
-            {
-              "id": 7,
-              "text": "Le CESER souhaiterait disposer d’informations qualitatives détaillées à cinq niveaux sur ce bilan : 1. Les montants provenant de l’Etat, notamment en matière d’insertion ou de soutien de l’emploi. 2. Sur chaque CAP, l’enveloppe initiale projetée et les crédits consommés. 3. Sur chaque CAP, les somme",
-              "page": 7,
-              "score": 0,
-              "similarite": 10.0,
-              "legal_doc": ""
-            },
-            {
-              "id": 8,
-              "text": "Le CESER demande à être associé en amont des démarches d’évaluation et à intégrer sa Section Evaluation dans le comité de pilotage-suivi du référentiel de suivi-évaluation des 50 mesures du SRDEII 2022-2030. Cette évaluation devra être menée en partenariat avec le CESER.",
-              "page": 7,
-              "score": 0,
-              "similarite": 10.0,
-              "legal_doc": ""
-            },
-            {
-              "id": 9,
-              "text": "Le CESER demande que soit simplifiée la lourdeur administrative pour le montage des dossiers d’aides économiques, notamment pour les PME et les artisans, et qu’un rééquilibrage territorial soit opéré avec la création d’un fonds spécifique pour le département de l’Indre, similaire au FOND SUD.",
-              "page": 11,
-              "score": 0,
-              "similarite": 10.0,
-              "legal_doc": ""
-            },
-            {
-              "id": 10,
-              "text": "Il est urgent de solliciter de nouveau l’avis des services de la Banque de France sur les dossiers d’aides économiques et qu’aucune aide ne soit octroyée à des entreprises qui versent des dividendes à leurs actionnaires. Conditionner les aides publiques aux entreprises en prenant en compte plusieurs",
-              "page": 13,
-              "score": 0,
-              "similarite": 10.0,
-              "legal_doc": ""
-            },
-            {
-              "id": 11,
-              "text": "Le CESER demande que l’enveloppe dédiée au CAP’ASSO soit sensiblement augmentée pour soutenir le secteur associatif et la création d’un dispositif similaire au CAP Développement, dans son volet numérique, en direction du secteur de l’Économie Sociale et Solidaire (ESS).",
-              "page": 14,
-              "score": 0,
-              "similarite": 10.0,
-              "legal_doc": ""
-            },
-            {
-              "id": 12,
-              "text": "Le groupe de l’artisanat demande à ce qu’une concertation étroite soit assurée dans le cadre de l’évaluation de l’efficacité des dispositions retenues dans le cadre du Schéma régional de développement économique.",
-              "page": 16,
-              "score": 0,
-              "similarite": 10.0,
-              "legal_doc": ""
-            }
-          ]
+          "preconisations": []
         },
         {
           "filename": "Octobre-2023-Rapport-CESER-Ruralites-2.pdf",
-          "total_precos": 14,
+          "total_precos": 2,
           "matched_precos": 2,
-          "taux_conversion": 14.3,
+          "taux_conversion": 100.0,
           "score_2_count": 0,
           "score_1_count": 2,
-          "score_0_count": 12,
+          "score_0_count": 0,
           "avg_similarity": 40.0,
           "preconisations": [
-            {
-              "id": 1,
-              "text": "Inscrire la lutte contre l’illectronisme comme un axe à part entière de la stratégie numérique régionale.",
-              "page": 38,
-              "score": 0,
-              "similarite": 10.0,
-              "legal_doc": ""
-            },
-            {
-              "id": 2,
-              "text": "Concevoir un mix de solutions permettant de ne plus s’en remettre à l’usage exclusif de la voiture et de rompre avec la pratique de l’autosolisme, en particulier là où le développement des transports en commun, bus et train, reste très contraint. Favoriser la mutualisation des modes de transports (t",
-              "page": 40,
-              "score": 0,
-              "similarite": 10.0,
-              "legal_doc": ""
-            },
-            {
-              "id": 3,
-              "text": "Promouvoir un discours positif et engageant, en mettant en avant les opportunités et les potentialités que représentent les territoires ruraux, et développer une communication sur les « aménités » du rural en direction des populations intéressées.",
-              "page": 44,
-              "score": 0,
-              "similarite": 10.0,
-              "legal_doc": ""
-            },
-            {
-              "id": 4,
-              "text": "Redynamiser l’offre de logements en milieu rural, par la mise en œuvre des orientations du CESER contenues dans le rapport sur la mise en œuvre du Zéro artificialisation nette, de façon à réduire le phénomène de la vacance de longue durée et à requalifier les friches bâties (anciens bâtiments indust",
-              "page": 91,
-              "score": 0,
-              "similarite": 10.0,
-              "legal_doc": ""
-            },
-            {
-              "id": 5,
-              "text": "Inscrire un volet « jeunesse rurale » dans les Contrats de Plan Etat - Régions et les Contrats Régionaux de Solidarité Territoriale, pour créer les conditions permettant de ralentir l’exode des jeunes ruraux par : la création d’emplois nouveaux ou renouvelés, le rapprochement des lieux de formation ",
-              "page": 91,
-              "score": 0,
-              "similarite": 10.0,
-              "legal_doc": ""
-            },
-            {
-              "id": 6,
-              "text": "Permettre aux habitants de rester sur leur territoire en leur donnant la possibilité d’en sortir au quotidien par une offre de mobilité diversifiée, et renforcer la capacité des petites villes et bourgs principaux à répondre aux demandes de biens et de services par une offre de proximité. Faire des ",
-              "page": 91,
-              "score": 0,
-              "similarite": 10.0,
-              "legal_doc": ""
-            },
-            {
-              "id": 7,
-              "text": "Favoriser l’accès des habitants aux études supérieures et aux « services rares » dans les pôles intermédiaires et les villes moyennes pour faciliter à ceux qui le souhaitent leur maintien sur le territoire. Améliorer les conditions d’un maintien en milieu peu dense des personnes âgées par le dévelop",
-              "page": 91,
-              "score": 0,
-              "similarite": 10.0,
-              "legal_doc": ""
-            },
             {
               "id": 8,
               "text": "Mettre à profit la révision du SRADDET pour intégrer les objectifs de sobriété foncière et de lutte contre l’étalement urbain dans les territoires ruraux, qui peuvent contribuer à la fois à une meilleure préservation de la biodiversité par une moindre artificialisation des sols, à l’optimisation des",
@@ -10541,89 +10204,25 @@
               "legal_doc": "l15b1460_rapport-information.pdf"
             },
             {
-              "id": 9,
-              "text": "Mettre à disposition des territoires ruraux l’ingénierie qui leur fait défaut pour faire émerger des projets écologiques et énergétiques et en assurer le montage, que ce soit en complétant par des aides régionales les dispositifs d’appui nationaux, du type CRTE (sous réserve de leur pérennisation), ",
-              "page": 97,
-              "score": 0,
-              "similarite": 10.0,
-              "legal_doc": ""
-            },
-            {
               "id": 10,
               "text": "Innover dans des activités nouvelles en exploitant les opportunités de mise en valeur de ressources spécifiques matérielles et immatérielles, à l’échelle de chaque EPCI ou territoire de projet (PNR, Pays, PETR, etc.). Favoriser la renaissance d’une industrie « rurale » combinant la préservation de s",
               "page": 100,
               "score": 1,
               "similarite": 40.0,
               "legal_doc": "en-campagne-pour-lagriculture-de-demain-rapport (1).pdf"
-            },
-            {
-              "id": 11,
-              "text": "Mettre en application les préconisations du rapport d’autosaisine du CESER sur « l’économie touristique, outil d’attractivité du territoire régional » (février 2023), notamment quand elles concernent spécifiquement le tourisme rural. Faire du tourisme un axe majeur du développement local en milieu r",
-              "page": 104,
-              "score": 0,
-              "similarite": 10.0,
-              "legal_doc": ""
-            },
-            {
-              "id": 12,
-              "text": "Avec le soutien de la DRAC, apporter des crédits supplémentaires, sous forme de subventions, à l’action et à la création culturelles en milieu rural, résorber le sous-équipement culturel des territoires peu denses, développer les équipements culturels et sportifs de proximité (création de médiathèqu",
-              "page": 106,
-              "score": 0,
-              "similarite": 10.0,
-              "legal_doc": ""
-            },
-            {
-              "id": 13,
-              "text": "Négocier avec l’UE une amplification du programme LEADER, tout en introduisant une plus grande sélectivité territoriale au bénéfice des territoires les plus en difficulté, et examiner la possibilité d’un pré-financement par la Région des projets retenus. Faire évoluer les CRTE (ou dispositifs futurs",
-              "page": 111,
-              "score": 0,
-              "similarite": 10.0,
-              "legal_doc": ""
-            },
-            {
-              "id": 14,
-              "text": "Concevoir et mettre en œuvre une stratégie d’aménagement rural sous la forme d’un agenda rural régional, en s’appuyant sur le SRADDET et en partenariat avec l’État dans le cadre du Plan France Ruralités, pour éviter le renforcement des inégalités infrarégionales, et intégrer les analyses du rapport ",
-              "page": 131,
-              "score": 0,
-              "similarite": 10.0,
-              "legal_doc": ""
             }
           ]
         },
         {
           "filename": "Octobre-2023-Rapport-CESER_EAU-2.pdf",
-          "total_precos": 18,
+          "total_precos": 3,
           "matched_precos": 3,
-          "taux_conversion": 16.7,
+          "taux_conversion": 100.0,
           "score_2_count": 0,
           "score_1_count": 3,
-          "score_0_count": 15,
+          "score_0_count": 0,
           "avg_similarity": 46.7,
           "preconisations": [
-            {
-              "id": 1,
-              "text": "Le CESER incite la Région à prendre la compétence optionnelle « animation et concertation dans le domaine de la gestion et de la protection de la ressource en eau et des milieux aquatiques ».",
-              "page": 4,
-              "score": 0,
-              "similarite": 10.0,
-              "legal_doc": ""
-            },
-            {
-              "id": 2,
-              "text": "Il faut prévoir, dès aujourd’hui, une trajectoire de diminution de nos prélèvements et consommations d’eau d’ici 2070, avec un effet bien supérieur à la baisse estimée des cours d’eau et des nappes, en coordonnant les souhaits d’usage de l’eau des usagers des différents bassins pour assurer leur équ",
-              "page": 46,
-              "score": 0,
-              "similarite": 10.0,
-              "legal_doc": ""
-            },
-            {
-              "id": 3,
-              "text": "Le CESER recommande d’harmoniser les arrêtés cadres sécheresse entre les départements pour une meilleure lisibilité et compréhension par tous les usagers, en s’appuyant sur le Guide circulaire de mise en œuvre des mesures de restriction des usages de l’eau en période de sécheresse, et de simplifier ",
-              "page": 49,
-              "score": 0,
-              "similarite": 10.0,
-              "legal_doc": ""
-            },
             {
               "id": 4,
               "text": "Le CESER demande que les financements en faveur des milieux humides et des cours d’eau soient rehaussés et alignés sur les taux appliqués aux autres usages, notamment en relevant les taux d’aide des Agences de l’eau pour les opérations d’acquisition et de restauration des zones humides. Il préconise",
@@ -10631,22 +10230,6 @@
               "score": 1,
               "similarite": 50.0,
               "legal_doc": "l16b2113_rapport-information.pdf"
-            },
-            {
-              "id": 5,
-              "text": "Le CESER demande la création d’un document unique synthétisant l’ensemble des financements attribués pour la gestion de l’eau en Centre-Val de Loire, par acteur institutionnel et par thème, afin de mesurer leur efficience et d’améliorer la transparence. Il recommande également de produire un bilan f",
-              "page": 52,
-              "score": 0,
-              "similarite": 10.0,
-              "legal_doc": ""
-            },
-            {
-              "id": 6,
-              "text": "Le CESER préconise d’augmenter significativement le taux de renouvellement des réseaux d’eau potable et d’assainissement en Centre-Val de Loire pour atteindre au minimum 2% par an, afin de garantir la pérennité des infrastructures. Il recommande que les Agences de l’eau revoient leurs taux d’aide po",
-              "page": 53,
-              "score": 0,
-              "similarite": 10.0,
-              "legal_doc": ""
             },
             {
               "id": 7,
@@ -10657,113 +10240,25 @@
               "legal_doc": "l16b2113_rapport-information.pdf"
             },
             {
-              "id": 8,
-              "text": "Le CESER relève la complexité de la planification de l’eau et préconise une simplification pour gagner en efficacité et lisibilité. Il demande que les transferts en cours des compétences eau potable et assainissement aux intercommunalités soient l’occasion de prendre le virage des actions nécessaire",
-              "page": 59,
-              "score": 0,
-              "similarite": 10.0,
-              "legal_doc": ""
-            },
-            {
-              "id": 9,
-              "text": "Le CESER insiste sur la nécessité d’un acteur « chef d’orchestre » régional pour animer la communication et faire le relais entre les divers acteurs de l’eau, afin d’harmoniser les messages et les outils de sensibilisation, notamment en période de sécheresse. Il préconise de mettre en place un dispo",
-              "page": 64,
-              "score": 0,
-              "similarite": 10.0,
-              "legal_doc": ""
-            },
-            {
-              "id": 10,
-              "text": "Le CESER préconise de massifier la réalisation d’études territorialisées à vocation de diagnostic et d’aide à la décision sur la répartition des usages de l’eau, notamment les études Hydrologie, Milieux, Usages et Climat (HMUC), en accélérant les concertations tout en prenant le temps de rassembler ",
-              "page": 65,
-              "score": 0,
-              "similarite": 10.0,
-              "legal_doc": ""
-            },
-            {
-              "id": 11,
-              "text": "Le CESER recommande de créer une culture de l’approche collective et inter-services, en sortant d’une approche uniquement technique et experte de l’eau (SRADDET, SCoT, PLUi, SAGE…). Il préconise de décloisonner les services au sein d’une même structure pour traiter l’eau de manière globale (ex : ser",
-              "page": 66,
-              "score": 0,
-              "similarite": 10.0,
-              "legal_doc": ""
-            },
-            {
-              "id": 12,
-              "text": "Le CESER préconise de favoriser et encourager les aménagements et constructions de nature à optimiser l’infiltration des eaux pluviales, notamment en désimperméabilisant tout ce qui peut l’être (parkings, places, trottoirs, cheminements, terrasses, etc.) dans les espaces publics et privés, neufs et ",
-              "page": 66,
-              "score": 0,
-              "similarite": 10.0,
-              "legal_doc": ""
-            },
-            {
-              "id": 13,
-              "text": "Le CESER recommande de faire infuser la sobriété dans les politiques publiques et de sensibiliser les particuliers, les entreprises, les agriculteurs, les énergéticiens, les élus et les scolaires à la sobriété, aux circuits de l’eau (petits et grands cycles), au coût des infrastructures d’eau potabl",
-              "page": 66,
-              "score": 0,
-              "similarite": 10.0,
-              "legal_doc": ""
-            },
-            {
-              "id": 14,
-              "text": "Le CESER préconise de s’appuyer sur les acteurs de la formation et de l’enseignement pour irriguer les cursus et les établissements avec les principes de la préservation de la ressource en eau. Il recommande notamment de réviser le Projet Régional de l’Enseignement Agricole pour aborder dans tous le",
-              "page": 65,
-              "score": 0,
-              "similarite": 10.0,
-              "legal_doc": ""
-            },
-            {
-              "id": 15,
-              "text": "Le CESER recommande d’accompagner et financer les organismes, associations et professionnels de formation ayant un effet de levier sur les pratiques permettant d’économiser la ressource eau, en aidant à leur structuration, leur maillage territorial et leur développement. Il préconise d’intégrer dans",
-              "page": 68,
-              "score": 0,
-              "similarite": 10.0,
-              "legal_doc": ""
-            },
-            {
               "id": 16,
               "text": "Le CESER préconise de ne plus financer par des fonds publics les projets non vertueux pour la préservation de l’eau (ex : retenues de substitution alimentées par les nappes souterraines), et de limiter les réserves de substitution (bassines, retenues collinaires) sauf quand elles sont de faible volu",
               "page": 76,
               "score": 1,
               "similarite": 50.0,
               "legal_doc": "l16b2113_rapport-information.pdf"
-            },
-            {
-              "id": 17,
-              "text": "Le CESER recommande d’anticiper pour éviter une possible « guerre de l’eau » en coordonnant des mesures pour réguler le partage de l’eau, avec un besoin prioritaire de sobriété dans les usages et un accompagnement de la Région pour adapter les pratiques, notamment agricoles. Il préconise de priorise",
-              "page": 91,
-              "score": 0,
-              "similarite": 10.0,
-              "legal_doc": ""
-            },
-            {
-              "id": 18,
-              "text": "Le CESER préconise de mettre en place un véritable projet de société permettant de préserver l’eau pour les générations futures, en intégrant systématiquement la question de l’eau dans les prises de décisions politiques, en mettant fin à certaines dépenses publiques ayant un impact néfaste, et en dé",
-              "page": 92,
-              "score": 0,
-              "similarite": 10.0,
-              "legal_doc": ""
             }
           ]
         },
         {
           "filename": "RAPPORT_Formations_agricoles_2025.pdf",
-          "total_precos": 13,
+          "total_precos": 5,
           "matched_precos": 5,
-          "taux_conversion": 38.5,
+          "taux_conversion": 100.0,
           "score_2_count": 1,
           "score_1_count": 4,
-          "score_0_count": 8,
+          "score_0_count": 0,
           "avg_similarity": 54.0,
           "preconisations": [
-            {
-              "id": 1,
-              "text": "Le CESER soutient ce projet du pôle supérieur de la culture du vivant au LEGTA du Subdray à Bourges et attire l’attention tant de la Région que des Ministères concernés pour l’aider à aboutir (moyens humains et financiers), au risque que ces formations innovantes et indispensables pour prendre le to",
-              "page": 33,
-              "score": 0,
-              "similarite": 10.0,
-              "legal_doc": ""
-            },
             {
               "id": 2,
               "text": "L’agriculture devra s’adapter en allant vers des systèmes d'irrigations plus efficients, qui économisent l'eau comme le goutte-à-goutte enterré, en décalant les semis et en utilisant des variétés à récolte plus précoce, en anticipant sur des variétés adaptées au climat futur (y compris pour les esse",
@@ -10797,357 +10292,36 @@
               "legal_doc": "l15b1460_rapport-information.pdf"
             },
             {
-              "id": 6,
-              "text": "Accompagner la mise en œuvre des évolutions pédagogiques : accompagner la mise en œuvre des réformes de la voie professionnelle, proposer des parcours de formation favorisant le continuum pédagogique, mettre en œuvre l’approche capacitaire dans la pédagogie, encourager et valoriser des pratiques péd",
-              "page": 62,
-              "score": 0,
-              "similarite": 10.0,
-              "legal_doc": ""
-            },
-            {
-              "id": 7,
-              "text": "Renforcer l’élévation du niveau de qualification : accompagner la réussite scolaire des Bac Pro en BTSA, développer la poursuite d’étude post-BTSA en Bachelor Agro, accompagner la mise en œuvre de la rénovation des BTSA (dont la semestrialisation), faciliter les parcours de bi-qualifications et d’éq",
-              "page": 63,
-              "score": 0,
-              "similarite": 10.0,
-              "legal_doc": ""
-            },
-            {
-              "id": 8,
-              "text": "Accompagner les établissements dans les transitions : encourager des actions liées aux transitions et à l’agroécologie, former les salariés des exploitations agricoles des établissements à l’adaptation aux transitions, proposer aux familles des temps d’échange sur les changements sociétaux et les mu",
-              "page": 63,
-              "score": 0,
-              "similarite": 10.0,
-              "legal_doc": ""
-            },
-            {
-              "id": 9,
-              "text": "Mieux informer sur l’enseignement agricole dès le collège et jusque dans l’enseignement supérieur pour une meilleure connaissance des métiers et des voies de formation : pérenniser, accompagner et systématiser les actions des directeurs d'établissement d'enseignement agricole auprès des collèges et ",
-              "page": 78,
-              "score": 0,
-              "similarite": 10.0,
-              "legal_doc": ""
-            },
-            {
-              "id": 10,
-              "text": "Déployer auprès des adultes l’information sur les métiers, les nouveaux besoins en compétences et les débouchés en partenariat avec le SPRO et le réseau des CEP, et développer les « espaces tests » pour faciliter l’installation des personnes en reconversion professionnelle.",
-              "page": 80,
-              "score": 0,
-              "similarite": 10.0,
-              "legal_doc": ""
-            },
-            {
               "id": 11,
               "text": "Adapter les programmes de formation continue pour répondre aux transitions et créer l’appétence des agriculteurs (exploitants et salariés) pour suivre ces formations, et pallier la faiblesse de la mobilisation de la VAE dans le domaine agricole.",
               "page": 87,
               "score": 1,
               "similarite": 45.0,
               "legal_doc": "en-campagne-pour-lagriculture-de-demain-rapport (1).pdf"
-            },
-            {
-              "id": 12,
-              "text": "Renforcer les potentiels de Recherche dans le domaine agricole et de la transformation en Centre-Val de Loire, et développer l’offre de formation supérieure agricole dans la région pour faciliter les poursuites d’études des jeunes.",
-              "page": 85,
-              "score": 0,
-              "similarite": 10.0,
-              "legal_doc": ""
-            },
-            {
-              "id": 13,
-              "text": "Renforcer la prise en compte des situations de handicap dans les formations agricoles.",
-              "page": 91,
-              "score": 0,
-              "similarite": 10.0,
-              "legal_doc": ""
             }
           ]
         },
         {
           "filename": "Rapport-CFF-pour-SP-21-fev.pdf",
-          "total_precos": 22,
+          "total_precos": 0,
           "matched_precos": 0,
           "taux_conversion": 0.0,
           "score_2_count": 0,
           "score_1_count": 0,
-          "score_0_count": 22,
+          "score_0_count": 0,
           "avg_similarity": 0.0,
-          "preconisations": [
-            {
-              "id": 1,
-              "text": "La Région doit exercer un lobbying au niveau de l’État sur l’entretien du réseau ferroviaire. Elle ne doit pas participer au financement de routes alors qu’elle néglige le ferroviaire.",
-              "page": 12,
-              "score": 0,
-              "similarite": 10.0,
-              "legal_doc": ""
-            },
-            {
-              "id": 2,
-              "text": "Pour prendre des parts de marché sur le fret diffus, il est nécessaire d’aller à la rencontre commerciale des PME pour leur proposer des embranchements ou des solutions de raccordement aux plateformes multimodales.",
-              "page": 12,
-              "score": 0,
-              "similarite": 10.0,
-              "legal_doc": ""
-            },
-            {
-              "id": 3,
-              "text": "Lancer un lobbying actif pour la création d’un hub ferroviaire en région auprès de l’exécutif et des régions voisines, en identifiant les acteurs intéressés (dont grands acteurs du combiné européens) et en travaillant en mode projet.",
-              "page": 13,
-              "score": 0,
-              "similarite": 10.0,
-              "legal_doc": ""
-            },
-            {
-              "id": 4,
-              "text": "Mettre en avant l’atout que représente le ferroviaire pour le financement des infrastructures de transport utiles aux voyageurs et aux marchandises, en ciblant un flux prioritaire de corridor de/vers l’est de l’Europe (permettant d’éviter le réseau francilien très encombré).",
-              "page": 13,
-              "score": 0,
-              "similarite": 10.0,
-              "legal_doc": ""
-            },
-            {
-              "id": 5,
-              "text": "HAROPA pourrait proposer sur son prochain Projet Stratégique la modernisation de l’itinéraire Caen-Le Mans-Tours.",
-              "page": 18,
-              "score": 0,
-              "similarite": 10.0,
-              "legal_doc": ""
-            },
-            {
-              "id": 6,
-              "text": "Structurer un plan de relance du report modal vers le ferroviaire, en préservant, sauvegardant et reconstituant le patrimoine ferroviaire pour assurer l’avenir, et en optimisant les ressources de la logistique et du mode ferroviaire pour les faire connaître.",
-              "page": 29,
-              "score": 0,
-              "similarite": 10.0,
-              "legal_doc": ""
-            },
-            {
-              "id": 7,
-              "text": "Promouvoir Dév’Up en qualité de coordinateur régional du fret ferroviaire, en prenant le relais de l’animation de la CFF et en lui donnant les moyens techniques et organisationnels d’assurer cette nouvelle mission.",
-              "page": 29,
-              "score": 0,
-              "similarite": 10.0,
-              "legal_doc": ""
-            },
-            {
-              "id": 8,
-              "text": "Constituer, diffuser et partager un plan d’action régional de relance du fret ferroviaire avec les entités régionales contributrices (ADEME, DREAL, Région, SNCF Réseau, EPCI volontaires, Dév’Up, CCI, syndicats patronaux et salariés, Préfecture de Région).",
-              "page": 30,
-              "score": 0,
-              "similarite": 10.0,
-              "legal_doc": ""
-            },
-            {
-              "id": 9,
-              "text": "Préserver le réseau des voies 7 à 9 SV et AV25 pour permettre la circulation des convois fret à 40 km/h minimum à la charge D (22,5 tonnes à l’essieu) en travaillant avec l’État (via les CPER), les collectivités concernées, les industriels et les stockeurs.",
-              "page": 31,
-              "score": 0,
-              "similarite": 10.0,
-              "legal_doc": ""
-            },
-            {
-              "id": 10,
-              "text": "Accélérer les aménagements permettant de disposer de trois terminaux de transport combiné en Centre-Val de Loire (Saint-Pierre-des-Corps, Les Aubrais, Vierzon) et en aidant les opérateurs à moderniser les installations.",
-              "page": 31,
-              "score": 0,
-              "similarite": 10.0,
-              "legal_doc": ""
-            },
-            {
-              "id": 11,
-              "text": "Dans le cadre de travaux de régénération du réseau de desserte fine, réaliser des études « Voyageurs » et « Fret » afin de préserver les possibilités à l’avenir.",
-              "page": 31,
-              "score": 0,
-              "similarite": 10.0,
-              "legal_doc": ""
-            },
-            {
-              "id": 12,
-              "text": "Organiser tous les ans ou tous les deux ans un salon régional du fret ferroviaire en alternance sur les trois grands sites régionaux (Vierzon, Orléans, Tours).",
-              "page": 32,
-              "score": 0,
-              "similarite": 10.0,
-              "legal_doc": ""
-            },
-            {
-              "id": 13,
-              "text": "Mettre en place une information régionale sur le niveau de report modal et la diminution des gaz à effets de serre sur la région, et la partager avec les régions voisines et les organismes nationaux.",
-              "page": 32,
-              "score": 0,
-              "similarite": 10.0,
-              "legal_doc": ""
-            },
-            {
-              "id": 14,
-              "text": "Constituer un annuaire partagé des acteurs de la logistique et du fret ferroviaire en Centre-Val de Loire et le diffuser, tout en faisant l’inventaire des demandes de modifications et créations d’Installations Terminales Embranchées (ITE) et en suivant le stock des études en attente dans les bureaux",
-              "page": 33,
-              "score": 0,
-              "similarite": 10.0,
-              "legal_doc": ""
-            },
-            {
-              "id": 15,
-              "text": "Rouvrir l’ITE en ligne de la centrale d’enrobés de Fossé (41) en accordant le déchargement en navette des matériaux (50 000 tonnes de granulats reportés immédiatement de la route au fer), et créer une ITE sur Saran (45) avec un potentiel de 50 000 à 100 000 tonnes de granulats pour la livraison dire",
-              "page": 33,
-              "score": 0,
-              "similarite": 10.0,
-              "legal_doc": ""
-            },
-            {
-              "id": 16,
-              "text": "Déterminer la forme d’intervention (sensibiliser, inciter ou contraindre) pour raccorder au ferroviaire des grandes plateformes logistiques et y générer des trafics (existantes ou en projet) situées en région.",
-              "page": 33,
-              "score": 0,
-              "similarite": 10.0,
-              "legal_doc": ""
-            },
-            {
-              "id": 17,
-              "text": "Reconnecter ferroviairement le Berry à la Bretagne et aux ports de l’Atlantique via Saint-Pierre-des-Corps en remettant en état la section Buzançais-Loches, et rouvrir le tronçon Patay-Péronville pour utiliser la carrière Moreau dans le cadre des travaux du Grand Paris (calcaire et déchets inertes).",
-              "page": 34,
-              "score": 0,
-              "similarite": 10.0,
-              "legal_doc": ""
-            },
-            {
-              "id": 18,
-              "text": "Positionner la Région et le CESER Centre-Val de Loire comme partie prenante des instances interrégionales et européennes du ferroviaire (ex : CESER de l’Atlantique, UE-Atlantic Corridor), et intégrer la Région Centre-Val de Loire, avec les Régions intéressées, en qualité d’observatrice dans les inst",
-              "page": 34,
-              "score": 0,
-              "similarite": 10.0,
-              "legal_doc": ""
-            },
-            {
-              "id": 19,
-              "text": "En lien avec HAROPA, remettre en place un itinéraire bis d’accès au Port de Rouen au départ des Aubrais pour les trafics de céréales (via Le Mans ou via Voves).",
-              "page": 34,
-              "score": 0,
-              "similarite": 10.0,
-              "legal_doc": ""
-            },
-            {
-              "id": 20,
-              "text": "Promouvoir sur la région et auprès des Métropoles le transport de déchets ménagers et déchets inertes du BTP par voies ferrées et fluviales, et concevoir avec SNCF Réseau la création d’une ligne d’essai pour les matériels ferroviaires à valider, par exemple en utilisant une section de ligne non expl",
-              "page": 35,
-              "score": 0,
-              "similarite": 10.0,
-              "legal_doc": ""
-            },
-            {
-              "id": 21,
-              "text": "Apporter une aide en ingénierie de projets aux acteurs de l’innovation en région (fabricants de matériels ferroviaires et équipementiers sous-traitants) en favorisant le travail de partenariat entre SNCF Réseau et ses services ingénierie, mais aussi les services ingénierie du matériel ferroviaire et",
-              "page": 35,
-              "score": 0,
-              "similarite": 10.0,
-              "legal_doc": ""
-            },
-            {
-              "id": 22,
-              "text": "Instaurer une rencontre semestrielle à annuelle avec les organisations patronales et syndicats de salarié(e)s afin de mieux appréhender les enjeux de démocratie sociale dans un secteur concurrentiel où les investissements publics et les aides en soutien à l’exploitation sont importants, et favoriser",
-              "page": 35,
-              "score": 0,
-              "similarite": 10.0,
-              "legal_doc": ""
-            }
-          ]
+          "preconisations": []
         },
         {
           "filename": "Rapport-Clusters-de-demain-Avril-2023.pdf",
-          "total_precos": 15,
+          "total_precos": 1,
           "matched_precos": 1,
-          "taux_conversion": 6.7,
+          "taux_conversion": 100.0,
           "score_2_count": 0,
           "score_1_count": 1,
-          "score_0_count": 14,
+          "score_0_count": 0,
           "avg_similarity": 40.0,
           "preconisations": [
-            {
-              "id": 1,
-              "text": "Promouvoir, détecter et amorcer les dynamiques collaboratives d’entreprises en accompagnant les clusters sur le moyen terme pour les solidifier et en offrant un panel d’outils pour soutenir le développement des entreprises, l’emploi et la réindustrialisation durable et d’avenir.",
-              "page": 28,
-              "score": 0,
-              "similarite": 10.0,
-              "legal_doc": ""
-            },
-            {
-              "id": 2,
-              "text": "Créer un « Salon régional des Clusters et Pôles de compétitivité » pour informer sur le rôle et les objectifs des clusters, promouvoir les démarches existantes en Centre-Val de Loire, et favoriser les adhésions des entreprises. Cet événement pourrait se tenir tous les trois ans en lien avec les conv",
-              "page": 28,
-              "score": 0,
-              "similarite": 10.0,
-              "legal_doc": ""
-            },
-            {
-              "id": 3,
-              "text": "Proposer un dossier et une procédure adaptés et uniformisés par Dév’Up pour cadrer l’objet d’un projet de cluster, incluant la mise en place d’un Comité d’experts dédié pour évaluer chaque étape de la constitution et d’amorçage.",
-              "page": 28,
-              "score": 0,
-              "similarite": 10.0,
-              "legal_doc": ""
-            },
-            {
-              "id": 4,
-              "text": "Mener des réunions de concertation conjointement par la/les structure(s) porteuse(s) du projet et un agent mis à disposition par Dév’Up, une EPCI ou une chambre consulaire ou inter-consulaire pour promouvoir la démarche auprès des entreprises et des acteurs potentiellement parties prenantes. En débu",
-              "page": 28,
-              "score": 0,
-              "similarite": 10.0,
-              "legal_doc": ""
-            },
-            {
-              "id": 5,
-              "text": "Mettre en place un conventionnement tri-annuel de la Région avec les clusters pour stabiliser les équipes, garantir la pérennité des projets portés et diminuer le temps administratif. Ce conventionnement comprendrait un financement socle pour les frais de fonctionnement et une partie liée à des proj",
-              "page": 30,
-              "score": 0,
-              "similarite": 10.0,
-              "legal_doc": ""
-            },
-            {
-              "id": 6,
-              "text": "Maintenir la politique de soutien via le régime des « Aides aux pôles d’innovation » et solliciter les structures de recrutement (APEC, APECITA, Pôle Emploi, etc.) pour attirer les talents d’autres régions. Sensibiliser et promouvoir les offres disponibles auprès des agents des collectivités locales",
-              "page": 30,
-              "score": 0,
-              "similarite": 10.0,
-              "legal_doc": ""
-            },
-            {
-              "id": 7,
-              "text": "Engager une réflexion avec les clusters pour mutualiser des fonctions supports (communication et Conseil scientifique notamment) à l’image de l’Interclustering en Centre-Val de Loire, et réactiver un Interclustering à fréquence régulière (semestrielle) pour solidifier les liens entre clusters et Pôl",
-              "page": 30,
-              "score": 0,
-              "similarite": 10.0,
-              "legal_doc": ""
-            },
-            {
-              "id": 8,
-              "text": "Proposer aux entreprises un crédit d’impôt sur une partie du montant des adhésions aux clusters, au titre d’une politique d’innovation et de réindustrialisation portée par l’État.",
-              "page": 30,
-              "score": 0,
-              "similarite": 10.0,
-              "legal_doc": ""
-            },
-            {
-              "id": 9,
-              "text": "Structurer une cellule porteuse des fonds européens et nationaux dédiés à l’innovation, mutualisée entre les trois chambres consulaires et incluant la BPI, pour favoriser les projets collaboratifs d’innovation supportés par les clusters.",
-              "page": 32,
-              "score": 0,
-              "similarite": 10.0,
-              "legal_doc": ""
-            },
-            {
-              "id": 10,
-              "text": "Créer des observatoires-filières au sein des clusters pour détecter les besoins en compétences émergentes, et développer des dispositifs comme des CFA spécialisés, des groupements d’employeurs, des GEIQ, ou des participations à des formations en écoles d’ingénieurs pour accroître la visibilité des f",
-              "page": 32,
-              "score": 0,
-              "similarite": 10.0,
-              "legal_doc": ""
-            },
-            {
-              "id": 11,
-              "text": "Pérenniser la politique de soutien des clusters régionaux à des salons régionaux, nationaux et internationaux via Dév’Up pour mutualiser les moyens de promotion et de prospection des entreprises régionales, et élargir cette action à des événements locaux spécialisés en Centre-Val de Loire.",
-              "page": 32,
-              "score": 0,
-              "similarite": 10.0,
-              "legal_doc": ""
-            },
             {
               "id": 12,
               "text": "Clarifier les rôles et dispositifs de l’État « stratège » et des Régions dans le financement des pôles et des projets, en garantissant que l’enveloppe publique globale ne baisse plus et en clarifiant les circuits et l’évaluation financière des sources et aides.",
@@ -11155,107 +10329,19 @@
               "score": 1,
               "similarite": 40.0,
               "legal_doc": "l15b2286_rapport-information.pdf"
-            },
-            {
-              "id": 13,
-              "text": "Approfondir les questions de sélectivité des projets retenus et leur évaluation, en intégrant une vision à long terme sur leur potentialité de marché ainsi que sur leurs impacts environnementaux et sociétaux.",
-              "page": 46,
-              "score": 0,
-              "similarite": 10.0,
-              "legal_doc": ""
-            },
-            {
-              "id": 14,
-              "text": "Adapter la gouvernance interne des clusters pour porter une attention plus soucieuse des TPE/PME et être plus ouverte sur son environnement, afin de mieux intégrer les transitions numériques et écologiques, ainsi que les enjeux de qualification et de mutation des emplois.",
-              "page": 46,
-              "score": 0,
-              "similarite": 10.0,
-              "legal_doc": ""
-            },
-            {
-              "id": 15,
-              "text": "Mettre en place dès le début des projets de création des clusters une démarche d’évaluation et de suivi de la mise en œuvre, avec des indicateurs identifiés, dès lors que des aides publiques sont apportées.",
-              "page": 41,
-              "score": 0,
-              "similarite": 10.0,
-              "legal_doc": ""
             }
           ]
         },
         {
           "filename": "Rapport-Octobre-2020-Con-1-1.pdf",
-          "total_precos": 17,
+          "total_precos": 2,
           "matched_precos": 2,
-          "taux_conversion": 11.8,
+          "taux_conversion": 100.0,
           "score_2_count": 0,
           "score_1_count": 2,
-          "score_0_count": 15,
+          "score_0_count": 0,
           "avg_similarity": 42.5,
           "preconisations": [
-            {
-              "id": 1,
-              "text": "Le CESER recommande de renforcer les moyens et les formations des professionnels accompagnant les patients, ainsi qu’une revalorisation de l’attractivité de ces métiers et une reconnaissance des aidants familiaux.",
-              "page": 12,
-              "score": 0,
-              "similarite": 10.0,
-              "legal_doc": ""
-            },
-            {
-              "id": 2,
-              "text": "Le CESER préconise une meilleure organisation du recours au système de soins, par exemple, par un renforcement de la prévention, et demande que le secteur médico-social soit considéré comme prioritaire par les pouvoirs publics, notamment en matière de fourniture d’équipements de protection, de garde",
-              "page": 12,
-              "score": 0,
-              "similarite": 10.0,
-              "legal_doc": ""
-            },
-            {
-              "id": 3,
-              "text": "Le CESER recommande d’assurer une meilleure articulation entre les secteurs hospitalier et médico-social, ainsi qu’une gestion moins verticale et plus inclusive de la démocratie sanitaire par les ARS, en systématisant la mise en cohérence des Projets Régionaux de Santé (PRS) avec les schémas d’aména",
-              "page": 11,
-              "score": 0,
-              "similarite": 10.0,
-              "legal_doc": ""
-            },
-            {
-              "id": 4,
-              "text": "Le CESER demande que des mesures supplémentaires soient prises pour l’hébergement d’urgence des femmes victimes de violences conjugales, en réponse à l’insuffisance actuelle des places disponibles.",
-              "page": 16,
-              "score": 0,
-              "similarite": 10.0,
-              "legal_doc": ""
-            },
-            {
-              "id": 5,
-              "text": "Le CESER recommande de maintenir la qualité de l’air comme une préoccupation permanente pour « le monde d’après », en intégrant les enjeux sanitaires, environnementaux, économiques et juridiques, et de déployer une politique de prévention dans l’aménagement des villes, la gestion des transports, et ",
-              "page": 18,
-              "score": 0,
-              "similarite": 10.0,
-              "legal_doc": ""
-            },
-            {
-              "id": 6,
-              "text": "Le CESER recommande de lancer la mise en œuvre de l’ensemble des projets d’investissements proposés par les établissements d'enseignement supérieur et de recherche, notamment les universités d’Orléans et de Tours, pour une inscription au CPER dès la première année de ce dernier. Il convient aussi qu",
-              "page": 29,
-              "score": 0,
-              "similarite": 10.0,
-              "legal_doc": ""
-            },
-            {
-              "id": 7,
-              "text": "Doter tous les jeunes des équipements numériques nécessaires en anticipation d’une éventuelle nouvelle crise et pour prendre le virage du numérique dans les apprentissages. Former les enseignants aux usages numériques (formation initiale et continue), prévoir une version numérique des cours pour cha",
-              "page": 30,
-              "score": 0,
-              "similarite": 10.0,
-              "legal_doc": ""
-            },
-            {
-              "id": 8,
-              "text": "Le CESER recommande de renforcer les aides en faveur de l’apprentissage, notamment en portant à 8 000 euros les aides aux entreprises quelle que soit l’âge de l’apprenti et en offrant un soutien différencié selon les secteurs d’activité. Développer les formations de haut niveau impliquant des instal",
-              "page": 30,
-              "score": 0,
-              "similarite": 10.0,
-              "legal_doc": ""
-            },
             {
               "id": 9,
               "text": "Encourager et aider à l’installation de jeunes agriculteurs porteurs de méthodes respectueuses de l’environnement, et favoriser l’accueil et le maintien des jeunes dans les villes moyennes, les territoires ruraux et péri-urbains via des investissements dans des équipements collectifs et un Schéma ré",
@@ -11271,83 +10357,19 @@
               "score": 1,
               "similarite": 40.0,
               "legal_doc": "l15b1460_rapport-information.pdf"
-            },
-            {
-              "id": 11,
-              "text": "Créer un pôle métropolitain entre Orléans, Blois et Tours par la requalification et l’optimisation des voies ferrées structurantes, et développer des étoiles ferroviaires autour des deux principales métropoles pour relier tous les chefs-lieux de la région. Garantir un accès de qualité au réseau ferr",
-              "page": 38,
-              "score": 0,
-              "similarite": 10.0,
-              "legal_doc": ""
-            },
-            {
-              "id": 12,
-              "text": "Le CESER recommande d’accélérer le développement des six filières de pointe dans lesquelles la région Centre-Val de Loire se positionne ou doit se positionner en leader : le luxe (cosmétique, textile-cuir-habillement), le médicament, la logistique, l’aéronautique, le bois et l’agroalimentaire. Créer",
-              "page": 43,
-              "score": 0,
-              "similarite": 10.0,
-              "legal_doc": ""
-            },
-            {
-              "id": 13,
-              "text": "Le CESER demande de permettre aux entreprises de reconstituer leurs fonds propres en transformant les prêts acquis pendant la crise en quasi-fonds propres, et que la Région apporte sa garantie au secteur bancaire pour le financement du rebond économique, en étant exigeante sur l’utilisation des fond",
-              "page": 44,
-              "score": 0,
-              "similarite": 10.0,
-              "legal_doc": ""
-            },
-            {
-              "id": 14,
-              "text": "Améliorer les conditions et les moyens d’action des structures de l’Économie Sociale et Solidaire (ESS) pour les pérenniser et les rendre attractives pour leurs salariés et leurs adhérents. Lever les freins culturels et financiers à la transmission d’entreprise dans le cadre de SCOP et SCIC pour enc",
-              "page": 47,
-              "score": 0,
-              "similarite": 10.0,
-              "legal_doc": ""
-            },
-            {
-              "id": 15,
-              "text": "Doter la Région d’un outil de prospective et d’aide à la résilience des territoires, incluant une cellule d’analyse des différents champs du risque, animée par une équipe pluridisciplinaire (économistes, géographes, climatologues, prospectivistes, etc.) pour faire de la prospective des risques. Fair",
-              "page": 48,
-              "score": 0,
-              "similarite": 10.0,
-              "legal_doc": ""
-            },
-            {
-              "id": 16,
-              "text": "Associer des citoyens aux travaux du CESER et placer celui-ci dans une posture de facilitateur pour susciter la formulation de contributions et de propositions, afin de renforcer la démocratie permanente en région. Mettre en œuvre une véritable ambition vers la décarbonisation dans la transformation",
-              "page": 50,
-              "score": 0,
-              "similarite": 10.0,
-              "legal_doc": ""
-            },
-            {
-              "id": 17,
-              "text": "Conforter les ressources de la protection sociale par l’imposition des hauts patrimoines et des grandes entreprises, en consacrant les bénéfices à l’investissement immédiat pour la santé et à venir pour protéger l’activité et l’emploi, tout en revalorisant salariale d’ensemble des métiers et mission",
-              "page": 63,
-              "score": 0,
-              "similarite": 10.0,
-              "legal_doc": ""
             }
           ]
         },
         {
           "filename": "Rapport-Tourisme-Attractivite.pdf",
-          "total_precos": 23,
+          "total_precos": 1,
           "matched_precos": 1,
-          "taux_conversion": 4.3,
+          "taux_conversion": 100.0,
           "score_2_count": 0,
           "score_1_count": 1,
-          "score_0_count": 22,
+          "score_0_count": 0,
           "avg_similarity": 50.0,
           "preconisations": [
-            {
-              "id": 1,
-              "text": "Le CESER recommande de compléter les politiques d’attractivités exogènes par des politiques d’ancrage territorial afin de fixer les populations résidentes et renforcer leur sentiment d’appartenance et de fierté envers leur territoire, tout en veillant à l’équilibre entre l’attraction et l’ancrage du",
-              "page": 11,
-              "score": 0,
-              "similarite": 10.0,
-              "legal_doc": ""
-            },
             {
               "id": 2,
               "text": "Le CESER préconise d’imaginer des projets de territoires englobant les aspects socioculturels, éducation, santé, logements, environnement, loisirs et emploi pour renforcer l’ancrage des habitants, en assurant une gouvernance politique et managériale souple pour assurer la pérennité des initiatives.",
@@ -11355,185 +10377,17 @@
               "score": 1,
               "similarite": 50.0,
               "legal_doc": "l15b1460_rapport-information.pdf"
-            },
-            {
-              "id": 3,
-              "text": "Le CESER demande d’assurer un marketing territorial « sur-mesure » pour communiquer sur les vrais atouts du territoire et éviter les déceptions des prospects cibles, en mettant en place une démarche collective et transversale avec les habitants et les structures organisées (ESS, entreprises, consula",
-              "page": 11,
-              "score": 0,
-              "similarite": 10.0,
-              "legal_doc": ""
-            },
-            {
-              "id": 4,
-              "text": "Le CESER recommande de renforcer la mise en valeur des productions alimentaires labelisées et des marques de territoires (ex : © du Centre, AOP, Valeur Parc Naturel) pour véhiculer une image de bien-être et d’art de vivre en Centre-Val de Loire, en développant et promouvant les initiatives de visite",
-              "page": 20,
-              "score": 0,
-              "similarite": 10.0,
-              "legal_doc": ""
-            },
-            {
-              "id": 5,
-              "text": "Le CESER demande que les dispositifs d’accompagnement et de communication des métiers de bouche (ex : High Hospitality Company, guide de traduction des cartes de restaurants, label Qualité Tourisme) soient amplifiés et mieux diffusés auprès des professionnels du secteur, et que la plateforme « Arts ",
-              "page": 21,
-              "score": 0,
-              "similarite": 10.0,
-              "legal_doc": ""
-            },
-            {
-              "id": 6,
-              "text": "Le CESER recommande de maintenir et renforcer le dispositif CAP Développement Tourisme et Loisirs pour accompagner financièrement les projets innovants et durables, en particulier ceux valorisant les spécificités territoriales et l’accessibilité, et de bonifier les aides financières pour les projets",
-              "page": 22,
-              "score": 0,
-              "similarite": 10.0,
-              "legal_doc": ""
-            },
-            {
-              "id": 7,
-              "text": "Le CESER préconise de développer des infrastructures adaptées (salles de congrès, hébergements de grande capacité) pour capter le tourisme de groupes, notamment dans les départements proches de l’Île-de-France ou bien desservis par les LGV (ex : Eure-et-Loir, Loiret, Tours), et d’améliorer la connec",
-              "page": 26,
-              "score": 0,
-              "similarite": 10.0,
-              "legal_doc": ""
-            },
-            {
-              "id": 8,
-              "text": "Le CESER demande de former les acteurs du tourisme et des loisirs à une bonne sensibilisation des enjeux environnementaux et de biodiversité, et de systématiser à l’arrivée une formation aux offres touristiques locales pour les nouveaux professionnels du tourisme, via des journées d’accueil en pré-s",
-              "page": 16,
-              "score": 0,
-              "similarite": 10.0,
-              "legal_doc": ""
-            },
-            {
-              "id": 9,
-              "text": "Le CESER recommande de créer une Conférence Permanente « Tourisme », à l’initiative du Conseil régional, rassemblant tous les acteurs publics, parapublics et représentants du secteur Tourisme-Loisirs-CHR-Animation culturelle, dotée d’un plan d’actions suivi par un animateur-coordinateur et d’une Con",
-              "page": 43,
-              "score": 0,
-              "similarite": 10.0,
-              "legal_doc": ""
-            },
-            {
-              "id": 10,
-              "text": "Le CESER préconise de renforcer la complémentarité entre le CRT et Dév’Up via une nomination croisée de membres au sein de leurs Conseils d’Administration ou via une fusion des deux structures, et de poursuivre le travail de sensibilisation et de formation des élus et des techniciens des OT et des E",
-              "page": 44,
-              "score": 0,
-              "similarite": 10.0,
-              "legal_doc": ""
-            },
-            {
-              "id": 11,
-              "text": "Le CESER recommande de faire de la coordination des prestataires locaux autour d’un projet de territoire et d’une vision commune de la mise en tourisme une mission prioritaire de l’Office de Tourisme, en donnant les moyens nécessaires à sa collectivité de rattachement, et de poursuivre les mutualisa",
-              "page": 44,
-              "score": 0,
-              "similarite": 10.0,
-              "legal_doc": ""
-            },
-            {
-              "id": 12,
-              "text": "Le CESER demande d’assurer une formation de base des commerces locaux et des personnels des sites de visites et des CHR pour garantir une qualité constante de l’information diffusée et une expérience touristique optimisée, en les faisant relais de l’Office de Tourisme lorsque celui-ci est fermé, et ",
-              "page": 44,
-              "score": 0,
-              "similarite": 10.0,
-              "legal_doc": ""
-            },
-            {
-              "id": 13,
-              "text": "Le CESER recommande de pérenniser et déployer à plus large échelle le Fond Tourisme durable et « Ensemble pour un tourisme durable », en accentuant la structuration d’une offre hôtelière écoresponsable et durable via les CAP Hébergements, et en multipliant les « apporteurs d’affaires » (organisation",
-              "page": 46,
-              "score": 0,
-              "similarite": 10.0,
-              "legal_doc": ""
-            },
-            {
-              "id": 14,
-              "text": "Le CESER préconise d’accroître les possibilités de mobilités peu émettrices de carbone ou décarbonées (trains de nuit européens, aviation électrique) pour les mobilités extrarégionales, et de mettre en place des wagon-vélos et/ou autocars avec remorques pour les mobilités internes, en priorité vers ",
-              "page": 46,
-              "score": 0,
-              "similarite": 10.0,
-              "legal_doc": ""
-            },
-            {
-              "id": 15,
-              "text": "Le CESER recommande de soutenir un tourisme éducatif (classes de découverte) pour les scolaires et de faciliter l’accès aux vacances et aux loisirs pour les publics défavorisés via un fond dédié à l’investissement et au fonctionnement pérenne, en collaboration avec les Conseils Départementaux, CCAS ",
-              "page": 46,
-              "score": 0,
-              "similarite": 10.0,
-              "legal_doc": ""
-            },
-            {
-              "id": 16,
-              "text": "Le CESER demande de créer une carte de professionnels du tourisme, donnant un accès gratuit ou à tarif réduit aux sites de tourisme et de loisirs régionaux, portée par le CRT, et incluant des réductions sur les réseaux de transports régionaux pour les saisonniers, et de faciliter le logement des sai",
-              "page": 41,
-              "score": 0,
-              "similarite": 10.0,
-              "legal_doc": ""
-            },
-            {
-              "id": 17,
-              "text": "Le CESER recommande d’identifier les sites les plus porteurs pour constituer des « locomotives » touristiques, en validant cette initiative entre les acteurs responsables (État, Collectivités territoriales, représentants des professionnels, associations) via une Conférence Permanente, pour bénéficie",
-              "page": 49,
-              "score": 0,
-              "similarite": 10.0,
-              "legal_doc": ""
-            },
-            {
-              "id": 18,
-              "text": "Le CESER préconise de définir les financements de cette politique via une convention pluriannuelle et multipartite par grand site, incluant les CRST et les Partenariats Régions-Départements pour les collectivités, et de désigner une structure pilote-coordinatrice (les ADT semblant les mieux indiquée",
-              "page": 50,
-              "score": 0,
-              "similarite": 10.0,
-              "legal_doc": ""
-            },
-            {
-              "id": 19,
-              "text": "Le CESER recommande de mener une mission de prospective sur le tourisme de demain et les évolutions à venir (tension de la ressource en eau, mobilité décarbonée, énergie, etc.), confiée à la Conférence Permanente Tourisme, au CRT ou au CESER, et de développer une offre de formation et de sensibilisa",
-              "page": 47,
-              "score": 0,
-              "similarite": 10.0,
-              "legal_doc": ""
-            },
-            {
-              "id": 20,
-              "text": "Le CESER demande de créer une carte de visite proposant la gratuité sur les musées et monuments au sein du Département et une réduction sur la Région pour les résidents, accompagnée d’actions de médiation pour les publics éloignés du tourisme, et d’ouvrir les équipements sportifs des collectivités t",
-              "page": 52,
-              "score": 0,
-              "similarite": 10.0,
-              "legal_doc": ""
-            },
-            {
-              "id": 21,
-              "text": "Communiquer fortement en amont et en aval sur les 217 Centres de Préparation aux Jeux sélectionnés dans le cadre des Jeux Olympiques et Paralympiques « Paris 2024 ».",
-              "page": 52,
-              "score": 0,
-              "similarite": 10.0,
-              "legal_doc": ""
-            },
-            {
-              "id": 22,
-              "text": "Faire enfin la réforme des compétences en matière de tourisme pour clarifier les attributions entre Régions, Intercommunalités et Conseils Départementaux, afin d’améliorer l’efficience de l’action publique.",
-              "page": 73,
-              "score": 0,
-              "similarite": 10.0,
-              "legal_doc": ""
-            },
-            {
-              "id": 23,
-              "text": "Développer un plan d’action offensif d’attractivité à destination des professionnel-les salarié-es du tourisme, incluant un plan de communication national, pour pallier le déficit de notoriété de la région auprès des saisonniers et attirer les compétences nécessaires.",
-              "page": 74,
-              "score": 0,
-              "similarite": 10.0,
-              "legal_doc": ""
             }
           ]
         },
         {
           "filename": "Rapport-dautosaisine-juin-2022-Deprise-agricole.pdf",
-          "total_precos": 15,
+          "total_precos": 8,
           "matched_precos": 8,
-          "taux_conversion": 53.3,
+          "taux_conversion": 100.0,
           "score_2_count": 1,
           "score_1_count": 7,
-          "score_0_count": 7,
+          "score_0_count": 0,
           "avg_similarity": 49.4,
           "preconisations": [
             {
@@ -11551,22 +10405,6 @@
               "score": 1,
               "similarite": 40.0,
               "legal_doc": "l15b1460_rapport-information.pdf"
-            },
-            {
-              "id": 3,
-              "text": "Le CESER recommande que la Région, les départements, les intercommunalités n’étudient pas la déprise seulement du point de vue des friches agricoles, mais de toutes les terres agricoles disparues.",
-              "page": 17,
-              "score": 0,
-              "similarite": 10.0,
-              "legal_doc": ""
-            },
-            {
-              "id": 4,
-              "text": "Le CESER recommande à la Région de coordonner la mise en place d’un observatoire foncier régional, en lien avec les EPCI, les départements et les acteurs locaux (SAFER, CDPENAF, etc.), pour intégrer dans une base commune les données utilisables par les acteurs locaux sans difficulté méthodologique.",
-              "page": 43,
-              "score": 0,
-              "similarite": 10.0,
-              "legal_doc": ""
             },
             {
               "id": 5,
@@ -11593,30 +10431,6 @@
               "legal_doc": "l16b2113_rapport-information.pdf"
             },
             {
-              "id": 8,
-              "text": "Le CESER recommande la création de déclinaisons départementales du Comité régional Installation Transmission (CRIT), financées et présidées par l’État et la Région, pour amplifier l’action des collectivités territoriales (repérage des terres se libérant, mobilisation des biens communaux, portage du ",
-              "page": 40,
-              "score": 0,
-              "similarite": 10.0,
-              "legal_doc": ""
-            },
-            {
-              "id": 9,
-              "text": "Le CESER recommande que les critères d’octroi des Contrats Régionaux de Solidarité Territoriale (CRST) soient revus lors de leur prochaine révision pour favoriser les projets agricoles dans des secteurs où la déprise est importante ou très probable, et que la Région renforce les CRST pour qu’ils par",
-              "page": 45,
-              "score": 0,
-              "similarite": 10.0,
-              "legal_doc": ""
-            },
-            {
-              "id": 10,
-              "text": "Le CESER recommande d’intégrer explicitement la lutte contre la déprise agricole lors de la prochaine révision du Schéma directeur régional des exploitations agricoles (SDREA), et incite la DRAAF, la Région et la Chambre régionale d’agriculture à analyser les potentielles conséquences du SDREA sur l",
-              "page": 45,
-              "score": 0,
-              "similarite": 10.0,
-              "legal_doc": ""
-            },
-            {
               "id": 11,
               "text": "Le CESER recommande de limiter les implantations d’installations photovoltaïques sur des terres agricoles en poursuivant l’action des CDPENAF, et appelle les communes propriétaires de terres agricoles à œuvrer à leur mise en valeur agricole plutôt qu’à leur transformation en champs photovoltaïques. ",
               "page": 45,
@@ -11639,22 +10453,6 @@
               "score": 1,
               "similarite": 40.0,
               "legal_doc": "en-campagne-pour-lagriculture-de-demain-rapport (1).pdf"
-            },
-            {
-              "id": 14,
-              "text": "Le CESER recommande de croiser la base OCS GE nouvelle génération avec les données cadastrales pour améliorer la précision des analyses sur la déprise agricole et mesurer la perte de terres agricoles aux échelles infra-départementales.",
-              "page": 48,
-              "score": 0,
-              "similarite": 10.0,
-              "legal_doc": ""
-            },
-            {
-              "id": 15,
-              "text": "Le CESER recommande à la Région, aux départements et aux EPCI de sensibiliser, accompagner et inciter les agriculteurs à la création de GFA mutuels (GFAM) pour faciliter la transmission des exploitations agricoles.",
-              "page": 45,
-              "score": 0,
-              "similarite": 10.0,
-              "legal_doc": ""
             }
           ]
         }
@@ -11664,9 +10462,9 @@
   "global_kpis": {
     "regions_count": 8,
     "documents_count": 103,
-    "total_precos": 1294,
+    "total_precos": 1144,
     "matched_precos": 311,
-    "taux_conversion": 24.0,
+    "taux_conversion": 27.2,
     "elapsed_seconds": 8384.4
   },
   "generated_at": "2026-02-24T13:17:40.231514"
