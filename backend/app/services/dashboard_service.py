@@ -4,6 +4,7 @@ from app.core.config import settings
 from app.models.dashboard import (
     DashboardResponse, KpiStats, RegionStat,
     ScoreDistribution, SimilarityBucket, DocumentRanking, LegalReference,
+    CategoryStatWithRegions, RegionOverlap,
 )
 
 
@@ -109,6 +110,18 @@ class DashboardService:
             for doc, count in sorted(legal_counter.items(), key=lambda x: -x[1])[:10]
         ]
 
+        # Category stats & region overlap (stockés dans le store, pas de refresh)
+        category_stats = [
+            CategoryStatWithRegions(category=s["category"], regions=s.get("regions", {}))
+            for s in store.get("category_stats", [])
+        ]
+        ro_data = store.get("region_overlap")
+        region_overlap = RegionOverlap(
+            region_ids=ro_data.get("region_ids", []),
+            region_labels=ro_data.get("region_labels", {}),
+            matrix=ro_data.get("matrix", []),
+        ) if ro_data else None
+
         return DashboardResponse(
             kpis=KpiStats(
                 taux_conversion_global=kpis_data.get("taux_conversion", 0.0),
@@ -125,6 +138,8 @@ class DashboardService:
             top_documents=top_docs,
             bottom_documents=bottom_docs,
             top_legal_refs=top_legal,
+            category_stats=category_stats,
+            region_overlap=region_overlap,
         )
 
     def get_region_detail(self, region_id: str) -> dict | None:

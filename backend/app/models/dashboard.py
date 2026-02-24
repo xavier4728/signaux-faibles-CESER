@@ -49,6 +49,19 @@ class LegalReference(BaseModel):
     citation_count: int = 0
 
 
+class CategoryStatWithRegions(BaseModel):
+    """Part de chaque région dans une catégorie (stocké dans le store)."""
+    category: str
+    regions: dict[str, int] = {}  # region_id -> count
+
+
+class RegionOverlap(BaseModel):
+    """Recoupement entre régions (stocké dans le store)."""
+    region_ids: list[str] = []
+    region_labels: dict[str, str] = {}
+    matrix: list[list[float]] = []  # matrix[i][j] = overlap entre region_ids[i] et region_ids[j]
+
+
 class DashboardResponse(BaseModel):
     kpis: KpiStats
     comparateur_regional: list[RegionStat]
@@ -57,3 +70,5 @@ class DashboardResponse(BaseModel):
     top_documents: list[DocumentRanking] = []
     bottom_documents: list[DocumentRanking] = []
     top_legal_refs: list[LegalReference] = []
+    category_stats: list[CategoryStatWithRegions] = []
+    region_overlap: RegionOverlap | None = None

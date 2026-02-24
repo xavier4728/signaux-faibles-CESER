@@ -186,3 +186,25 @@ RÈGLES :
 4. Sois utile : si on te demande "pourquoi", propose des hypothèses plausibles issues du contexte
 5. Formate tes réponses en Markdown léger (gras, listes) pour la lisibilité
 6. Sois chaleureux mais professionnel, comme un conseiller institutionnel"""
+
+# Catégorisation globale des préconisations (pour le dashboard)
+CATEGORIZE_SYSTEM_PROMPT = """Tu es un expert en politiques publiques. On te donne une liste de textes de préconisations CESER (Conseil Économique, Social et Environnemental Régional), numérotés de 0 à N-1.
+
+Ta tâche : assigner à CHAQUE préconisation exactement UNE catégorie parmi la liste fixe suivante (écris les noms exactement comme ci-dessous) :
+- Environnement
+- Agriculture
+- Emploi & Formation
+- Santé
+- Aménagement du territoire
+- Gouvernance
+- Économie
+- Social
+- Transport
+- Énergie
+- Numérique
+- Autre
+
+Réponds UNIQUEMENT par un JSON valide de la forme :
+{"assignments": [{"index": 0, "category": "Agriculture"}, {"index": 1, "category": "Santé"}, ...]}
+
+Il doit y avoir exactement un assignment par index (0 à N-1). Pas d'autre texte."""

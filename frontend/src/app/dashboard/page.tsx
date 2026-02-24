@@ -58,6 +58,17 @@ interface LegalReference {
   citation_count: number;
 }
 
+interface CategoryStatWithRegions {
+  category: string;
+  regions: Record<string, number>;
+}
+
+interface RegionOverlap {
+  region_ids: string[];
+  region_labels: Record<string, string>;
+  matrix: number[][];
+}
+
 interface DashboardStats {
   kpis: {
     taux_conversion_global: number;
@@ -72,6 +83,8 @@ interface DashboardStats {
   top_documents: DocumentRanking[];
   bottom_documents: DocumentRanking[];
   top_legal_refs: LegalReference[];
+  category_stats: CategoryStatWithRegions[];
+  region_overlap: RegionOverlap | null;
 }
 
 const COLORS = {
@@ -88,6 +101,8 @@ export default function DashboardPage() {
   const [stats, setStats] = useState<DashboardStats | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
+  /** Thématiques affichées dans le graphique "Part des régions par catégorie". Vide = toutes. */
+  const [chartSelectedThemes, setChartSelectedThemes] = useState<Set<string>>(new Set());
 
   const fetchStats = async () => {
     try {
@@ -589,116 +604,206 @@ export default function DashboardPage() {
         </div>
       )}
 
-      {/* Row 4: Top & Bottom documents */}
+      {/* Row 4: Part des régions par catégorie + Recoupement entre régions */}
       {stats && (
         <div className="grid gap-6 lg:grid-cols-2">
-          {/* Top performers */}
+          {/* Part des régions par catégorie */}
           <Card className="border-border/60">
             <CardHeader className="pb-2">
               <div className="flex items-center gap-2">
-                <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-[var(--color-ceser-green)]/10">
-                  <ArrowUpRight className="h-3.5 w-3.5 text-[var(--color-ceser-green)]" />
+                <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-[var(--color-ceser-blue)]/10">
+                  <BarChart3 className="h-3.5 w-3.5 text-[var(--color-ceser-blue)]" />
                 </div>
                 <div>
                   <CardTitle className="text-sm font-semibold">
-                    Meilleurs taux de conversion
+                    Part des régions par catégorie
                   </CardTitle>
                   <p className="text-xs text-muted-foreground">
-                    Documents les plus repris dans la loi
+                    Pour chaque région, part des préconisations par thématique
                   </p>
                 </div>
               </div>
             </CardHeader>
             <CardContent>
-              {stats.top_documents.length > 0 ? (
-                <div className="space-y-2.5">
-                  {stats.top_documents.map((doc, i) => (
-                    <div
-                      key={i}
-                      className="flex items-center gap-3 rounded-lg border border-border/40 bg-muted/20 px-3 py-2"
-                    >
-                      <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[var(--color-ceser-green)]/10 text-xs font-bold text-[var(--color-ceser-green)]">
-                        {i + 1}
+              {stats.category_stats.length > 0 && stats.comparateur_regional.length > 0 ? (
+                (() => {
+                  const regionOrder = [...stats.comparateur_regional].sort((a, b) => a.region.localeCompare(b.region));
+                  const categoryOrder = [...new Set(stats.category_stats.map((s) => s.category))].sort((a, b) => a.localeCompare(b));
+                  const allSelected = chartSelectedThemes.size === 0;
+                  const visibleCategories = allSelected
+                    ? categoryOrder
+                    : categoryOrder.filter((c) => chartSelectedThemes.has(c));
+                  const effectiveCategories = visibleCategories.length > 0 ? visibleCategories : categoryOrder;
+
+                  const toggleTheme = (category: string) => {
+                    setChartSelectedThemes((prev) => {
+                      const next = new Set(prev);
+                      if (prev.size === 0) {
+                        return new Set([category]);
+                      }
+                      if (next.has(category)) {
+                        next.delete(category);
+                        return next;
+                      }
+                      next.add(category);
+                      return next;
+                    });
+                  };
+                  const isThemeActive = (cat: string) => allSelected || chartSelectedThemes.has(cat);
+
+                  // Données du graphique : uniquement les thématiques visibles
+                  const regionChartData = regionOrder.map((r) => {
+                    const row: Record<string, string | number> = { region: r.region };
+                    effectiveCategories.forEach((cat) => {
+                      const stat = stats.category_stats.find((s) => s.category === cat);
+                      row[cat] = stat?.regions[r.region_id] ?? 0;
+                    });
+                    return row;
+                  });
+
+                  const categoryColors = [
+                    "#0ea5e9", "#22c55e", "#eab308", "#f97316", "#ef4444", "#a855f7",
+                    "#06b6d4", "#84cc16", "#ec4899", "#6366f1", "#14b8a6", "#78716c",
+                  ];
+                  const totalByCategory = categoryOrder.map((cat, i) => {
+                    const stat = stats.category_stats.find((s) => s.category === cat);
+                    const total = stat ? Object.values(stat.regions).reduce((a, b) => a + b, 0) : 0;
+                    return { category: cat, total, color: categoryColors[i % categoryColors.length] };
+                  });
+
+                  return (
+                    <div className="space-y-3">
+                      <p className="text-xs text-muted-foreground">
+                        Cliquez sur une thématique pour afficher uniquement celle(s) choisie(s). Recliquez pour réinclure, ou « Tout afficher » pour tout afficher.
+                      </p>
+                      <div className="flex flex-wrap items-center gap-1.5 border-b border-border/50 pb-2">
+                        {!allSelected && (
+                          <button
+                            type="button"
+                            onClick={() => setChartSelectedThemes(new Set())}
+                            className="rounded-md border border-border bg-muted/50 px-2 py-1 text-xs font-medium text-muted-foreground transition hover:bg-muted hover:text-foreground"
+                          >
+                            Tout afficher
+                          </button>
+                        )}
+                        {totalByCategory.map(({ category, total, color }) => (
+                          <button
+                            key={category}
+                            type="button"
+                            onClick={() => toggleTheme(category)}
+                            className={`flex items-center gap-1.5 rounded-md border px-2 py-1 text-xs transition ${
+                              isThemeActive(category)
+                                ? "border-transparent font-medium"
+                                : "border-border/60 bg-muted/30 opacity-60 hover:opacity-80"
+                            }`}
+                            style={isThemeActive(category) ? { backgroundColor: `${color}20`, borderColor: color } : undefined}
+                            title={isThemeActive(category) ? "Masquer cette thématique" : "Afficher cette thématique"}
+                          >
+                            <span className="h-2 w-2 shrink-0 rounded-sm" style={{ backgroundColor: color }} aria-hidden />
+                            <span>{category}</span>
+                            <span className="tabular-nums text-muted-foreground">{total}</span>
+                          </button>
+                        ))}
                       </div>
-                      <div className="min-w-0 flex-1">
-                        <p
-                          className="truncate text-xs font-medium text-foreground"
-                          title={doc.filename}
+                      <ResponsiveContainer width="100%" height={Math.max(220, regionChartData.length * 36)}>
+                        <BarChart
+                          data={regionChartData}
+                          layout="vertical"
+                          margin={{ left: 4, right: 20, top: 5, bottom: 5 }}
                         >
-                          {doc.filename}
-                        </p>
-                        <p className="text-[10px] text-muted-foreground">
-                          {doc.region} · {doc.matched_precos}/{doc.total_precos}{" "}
-                          matchées · sim. moy. {doc.avg_similarity}%
-                        </p>
-                      </div>
-                      <div className="shrink-0 text-right">
-                        <span className="text-sm font-bold text-[var(--color-ceser-green)]">
-                          {doc.taux_conversion}%
-                        </span>
-                      </div>
+                          <XAxis type="number" allowDecimals={false} tick={{ fontSize: 10 }} />
+                          <YAxis type="category" dataKey="region" width={140} tick={{ fontSize: 10 }} />
+                          <Tooltip contentStyle={{ fontSize: 11, borderRadius: 8, border: "1px solid #e5e7eb" }} />
+                          <Legend wrapperStyle={{ fontSize: 10 }} />
+                          {effectiveCategories.map((cat, i) => (
+                            <Bar
+                              key={cat}
+                              dataKey={cat}
+                              stackId="a"
+                              fill={categoryColors[categoryOrder.indexOf(cat) % categoryColors.length]}
+                              radius={i === 0 ? [0, 0, 0, 0] : [0, 2, 2, 0]}
+                            />
+                          ))}
+                        </BarChart>
+                      </ResponsiveContainer>
                     </div>
-                  ))}
-                </div>
+                  );
+                })()
               ) : (
                 <p className="py-8 text-center text-sm text-muted-foreground">
-                  Aucun document
+                  Lancez le script de catégorisation : python -m scripts.compute_category_and_overlap
                 </p>
               )}
             </CardContent>
           </Card>
 
-          {/* Worst performers — signals faibles */}
+          {/* Recoupement entre régions */}
           <Card className="border-border/60">
             <CardHeader className="pb-2">
               <div className="flex items-center gap-2">
-                <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-[var(--color-ceser-neutral)]/10">
-                  <ArrowDownRight className="h-3.5 w-3.5 text-[var(--color-ceser-neutral)]" />
+                <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-[var(--color-ceser-green)]/10">
+                  <MapPin className="h-3.5 w-3.5 text-[var(--color-ceser-green)]" />
                 </div>
                 <div>
                   <CardTitle className="text-sm font-semibold">
-                    Signaux faibles
+                    Recoupement entre régions
                   </CardTitle>
                   <p className="text-xs text-muted-foreground">
-                    Documents les moins repris — potentiel législatif inexploité
+                    Préconisations thématiques communes (plus la valeur est élevée, plus les régions se recoupent)
                   </p>
                 </div>
               </div>
             </CardHeader>
             <CardContent>
-              {stats.bottom_documents.length > 0 ? (
-                <div className="space-y-2.5">
-                  {stats.bottom_documents.map((doc, i) => (
-                    <div
-                      key={i}
-                      className="flex items-center gap-3 rounded-lg border border-border/40 bg-muted/20 px-3 py-2"
-                    >
-                      <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[var(--color-ceser-neutral)]/10 text-xs font-bold text-[var(--color-ceser-neutral)]">
-                        <CheckCircle2 className="h-3.5 w-3.5" />
-                      </div>
-                      <div className="min-w-0 flex-1">
-                        <p
-                          className="truncate text-xs font-medium text-foreground"
-                          title={doc.filename}
-                        >
-                          {doc.filename}
-                        </p>
-                        <p className="text-[10px] text-muted-foreground">
-                          {doc.region} · {doc.matched_precos}/{doc.total_precos}{" "}
-                          matchées · {doc.score_0_count} non retrouvées
-                        </p>
-                      </div>
-                      <div className="shrink-0 text-right">
-                        <span className="text-sm font-bold text-[var(--color-ceser-neutral)]">
-                          {doc.taux_conversion}%
-                        </span>
-                      </div>
+              {stats.region_overlap && stats.region_overlap.region_ids.length > 0 ? (
+                (() => {
+                  const ro = stats.region_overlap;
+                  const ids = ro.region_ids;
+                  const labels = ro.region_labels;
+                  const matrix = ro.matrix;
+                  const sortedByLabel = [...ids].sort((a, b) => (labels[a] || a).localeCompare(labels[b] || b));
+                  const maxVal = matrix.flat().reduce((m, v) => Math.max(m, v), 0) || 1;
+                  return (
+                    <div className="overflow-x-auto">
+                      <table className="w-full min-w-[320px] border-collapse text-xs">
+                        <thead>
+                          <tr>
+                            <th className="border border-border/60 bg-muted/50 p-1.5 text-left font-medium"></th>
+                            {sortedByLabel.map((id) => (
+                              <th key={id} className="border border-border/60 bg-muted/50 p-1.5 text-center font-medium truncate max-w-[80px]" title={labels[id] || id}>
+                                {(labels[id] || id).split(" ")[0]}
+                              </th>
+                            ))}
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {sortedByLabel.map((idI, i) => (
+                            <tr key={idI}>
+                              <td className="border border-border/60 p-1.5 font-medium truncate max-w-[90px]" title={labels[idI] || idI}>
+                                {(labels[idI] || idI).split(" ")[0]}
+                              </td>
+                              {sortedByLabel.map((idJ, j) => {
+                                const idxI = ids.indexOf(idI);
+                                const idxJ = ids.indexOf(idJ);
+                                const val = matrix[idxI]?.[idxJ] ?? 0;
+                                const pct = maxVal ? Math.round((val / maxVal) * 100) : 0;
+                                const bg = idxI === idxJ ? "bg-muted/30" : pct > 60 ? "bg-[var(--color-ceser-green)]/30" : pct > 30 ? "bg-[var(--color-ceser-green)]/15" : "bg-muted/10";
+                                return (
+                                  <td key={idJ} className={`border border-border/60 p-1 text-center ${bg}`} title={`${labels[idI]} / ${labels[idJ]} : ${val} précos en commun`}>
+                                    {idxI === idxJ ? "—" : val}
+                                  </td>
+                                );
+                              })}
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
                     </div>
-                  ))}
-                </div>
+                  );
+                })()
               ) : (
                 <p className="py-8 text-center text-sm text-muted-foreground">
-                  Aucun document
+                  Lancez le script : python -m scripts.compute_category_and_overlap
                 </p>
               )}
             </CardContent>
