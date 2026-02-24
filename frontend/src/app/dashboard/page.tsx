@@ -763,41 +763,72 @@ export default function DashboardPage() {
                   const matrix = ro.matrix;
                   const sortedByLabel = [...ids].sort((a, b) => (labels[a] || a).localeCompare(labels[b] || b));
                   const maxVal = matrix.flat().reduce((m, v) => Math.max(m, v), 0) || 1;
+                  // Nuances du vert CESER (même vert que « Moyenne de préconisations par document »)
+                  const ceserGreenHue = 138;
+                  const ceserGreenSat = 47;
+                  const getHeatmapBg = (val: number, isDiagonal: boolean): { backgroundColor: string } => {
+                    if (isDiagonal) return { backgroundColor: "hsl(220, 10%, 96%)" };
+                    if (maxVal === 0) return { backgroundColor: "hsl(220, 10%, 99%)" };
+                    const t = val / maxVal;
+                    const lightness = 96 - t * 63;
+                    return { backgroundColor: `hsl(${ceserGreenHue}, ${ceserGreenSat}%, ${lightness}%)` };
+                  };
                   return (
-                    <div className="overflow-x-auto">
-                      <table className="w-full min-w-[320px] border-collapse text-xs">
-                        <thead>
-                          <tr>
-                            <th className="border border-border/60 bg-muted/50 p-1.5 text-left font-medium"></th>
-                            {sortedByLabel.map((id) => (
-                              <th key={id} className="border border-border/60 bg-muted/50 p-1.5 text-center font-medium truncate max-w-[80px]" title={labels[id] || id}>
-                                {(labels[id] || id).split(" ")[0]}
-                              </th>
+                    <div className="space-y-3">
+                      <div className="flex justify-end">
+                        <div className="flex items-center gap-2 rounded-lg border border-border/50 bg-muted/5 px-3 py-1.5 text-[10px] text-muted-foreground">
+                          <span>pas similaire</span>
+                          <div className="flex h-3 w-20 overflow-hidden rounded-full border border-border/40">
+                            {[0, 0.25, 0.5, 0.75, 1].map((t, k) => (
+                              <div
+                                key={k}
+                                className="flex-1"
+                                style={{ backgroundColor: `hsl(${ceserGreenHue}, ${ceserGreenSat}%, ${96 - t * 63}%)` }}
+                              />
                             ))}
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {sortedByLabel.map((idI, i) => (
-                            <tr key={idI}>
-                              <td className="border border-border/60 p-1.5 font-medium truncate max-w-[90px]" title={labels[idI] || idI}>
-                                {(labels[idI] || idI).split(" ")[0]}
-                              </td>
-                              {sortedByLabel.map((idJ, j) => {
-                                const idxI = ids.indexOf(idI);
-                                const idxJ = ids.indexOf(idJ);
-                                const val = matrix[idxI]?.[idxJ] ?? 0;
-                                const pct = maxVal ? Math.round((val / maxVal) * 100) : 0;
-                                const bg = idxI === idxJ ? "bg-muted/30" : pct > 60 ? "bg-[var(--color-ceser-green)]/30" : pct > 30 ? "bg-[var(--color-ceser-green)]/15" : "bg-muted/10";
-                                return (
-                                  <td key={idJ} className={`border border-border/60 p-1 text-center ${bg}`} title={`${labels[idI]} / ${labels[idJ]} : ${val} précos en commun`}>
-                                    {idxI === idxJ ? "—" : val}
-                                  </td>
-                                );
-                              })}
+                          </div>
+                          <span>similaire</span>
+                        </div>
+                      </div>
+                      <div className="overflow-x-auto rounded-lg border border-border/50">
+                        <table className="w-full min-w-[320px] border-collapse text-xs">
+                          <thead>
+                            <tr>
+                              <th className="rounded-tl-lg border border-border/60 bg-muted/50 p-1.5 text-left font-medium"></th>
+                              {sortedByLabel.map((id) => (
+                                <th key={id} className="border border-border/60 bg-muted/50 p-1.5 text-center font-medium truncate max-w-[80px]" title={labels[id] || id}>
+                                  {(labels[id] || id).split(" ")[0]}
+                                </th>
+                              ))}
                             </tr>
-                          ))}
-                        </tbody>
-                      </table>
+                          </thead>
+                          <tbody>
+                            {sortedByLabel.map((idI) => (
+                              <tr key={idI}>
+                                <td className="border border-border/60 p-1.5 font-medium truncate max-w-[90px]" title={labels[idI] || idI}>
+                                  {(labels[idI] || idI).split(" ")[0]}
+                                </td>
+                                {sortedByLabel.map((idJ) => {
+                                  const idxI = ids.indexOf(idI);
+                                  const idxJ = ids.indexOf(idJ);
+                                  const val = matrix[idxI]?.[idxJ] ?? 0;
+                                  const isDiagonal = idxI === idxJ;
+                                  return (
+                                    <td
+                                      key={idJ}
+                                      className="border border-border/60 p-1.5 text-center transition-colors"
+                                      style={getHeatmapBg(val, isDiagonal)}
+                                      title={`${labels[idI]} ↔ ${labels[idJ]} : ${val} préconisations en commun`}
+                                    >
+                                      {isDiagonal ? "—" : ""}
+                                    </td>
+                                  );
+                                })}
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
                     </div>
                   );
                 })()
