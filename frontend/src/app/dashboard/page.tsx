@@ -763,14 +763,14 @@ export default function DashboardPage() {
                   const matrix = ro.matrix;
                   const sortedByLabel = [...ids].sort((a, b) => (labels[a] || a).localeCompare(labels[b] || b));
                   const maxVal = matrix.flat().reduce((m, v) => Math.max(m, v), 0) || 1;
-                  // Nuances du vert CESER (même vert que « Moyenne de préconisations par document »)
-                  const ceserGreenHue = 138;
-                  const ceserGreenSat = 47;
+                  // Nuances du vert « Reprises directes » (#28A745)
+                  const ceserGreenHue = 134;
+                  const ceserGreenSat = 61;
                   const getHeatmapBg = (val: number, isDiagonal: boolean): { backgroundColor: string } => {
                     if (isDiagonal) return { backgroundColor: "hsl(220, 10%, 96%)" };
                     if (maxVal === 0) return { backgroundColor: "hsl(220, 10%, 99%)" };
                     const t = val / maxVal;
-                    const lightness = 96 - t * 63;
+                    const lightness = 96 - t * 55;
                     return { backgroundColor: `hsl(${ceserGreenHue}, ${ceserGreenSat}%, ${lightness}%)` };
                   };
                   return (
@@ -783,7 +783,7 @@ export default function DashboardPage() {
                               <div
                                 key={k}
                                 className="flex-1"
-                                style={{ backgroundColor: `hsl(${ceserGreenHue}, ${ceserGreenSat}%, ${96 - t * 63}%)` }}
+                                style={{ backgroundColor: `hsl(${ceserGreenHue}, ${ceserGreenSat}%, ${96 - t * 55}%)` }}
                               />
                             ))}
                           </div>
