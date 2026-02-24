@@ -10467,5 +10467,254 @@
     "taux_conversion": 27.2,
     "elapsed_seconds": 8384.4
   },
-  "generated_at": "2026-02-24T13:17:40.231514"
+  "generated_at": "2026-02-24T13:17:40.231514",
+  "category_stats": [
+    {
+      "category": "Environnement",
+      "regions": {
+        "ceser_pays_de_la_loire": 2,
+        "ceser_hauts_de_france": 5,
+        "ceser_la_reunion": 4,
+        "ceser_grand_est": 20,
+        "ceser_normandie": 27,
+        "ceser_nouvelle_aquitaine": 30,
+        "ceser_bretagne": 29,
+        "ceser_centre_val_de_loire": 23
+      }
+    },
+    {
+      "category": "Agriculture",
+      "regions": {
+        "ceser_pays_de_la_loire": 20,
+        "ceser_hauts_de_france": 4,
+        "ceser_la_reunion": 38,
+        "ceser_grand_est": 50,
+        "ceser_normandie": 80,
+        "ceser_nouvelle_aquitaine": 70,
+        "ceser_bretagne": 77,
+        "ceser_centre_val_de_loire": 70
+      }
+    },
+    {
+      "category": "Emploi & Formation",
+      "regions": {
+        "ceser_pays_de_la_loire": 3,
+        "ceser_hauts_de_france": 3,
+        "ceser_la_reunion": 6,
+        "ceser_grand_est": 5,
+        "ceser_normandie": 4,
+        "ceser_nouvelle_aquitaine": 5,
+        "ceser_bretagne": 13,
+        "ceser_centre_val_de_loire": 16
+      }
+    },
+    {
+      "category": "Santé",
+      "regions": {
+        "ceser_pays_de_la_loire": 3,
+        "ceser_hauts_de_france": 3,
+        "ceser_la_reunion": 22,
+        "ceser_grand_est": 1,
+        "ceser_nouvelle_aquitaine": 4,
+        "ceser_bretagne": 2,
+        "ceser_centre_val_de_loire": 1
+      }
+    },
+    {
+      "category": "Aménagement du territoire",
+      "regions": {
+        "ceser_pays_de_la_loire": 2,
+        "ceser_hauts_de_france": 8,
+        "ceser_la_reunion": 4,
+        "ceser_grand_est": 13,
+        "ceser_normandie": 2,
+        "ceser_nouvelle_aquitaine": 6,
+        "ceser_bretagne": 35,
+        "ceser_centre_val_de_loire": 28
+      }
+    },
+    {
+      "category": "Gouvernance",
+      "regions": {
+        "ceser_pays_de_la_loire": 3,
+        "ceser_hauts_de_france": 13,
+        "ceser_la_reunion": 20,
+        "ceser_grand_est": 20,
+        "ceser_normandie": 5,
+        "ceser_nouvelle_aquitaine": 42,
+        "ceser_bretagne": 24,
+        "ceser_centre_val_de_loire": 57
+      }
+    },
+    {
+      "category": "Économie",
+      "regions": {
+        "ceser_pays_de_la_loire": 1,
+        "ceser_hauts_de_france": 9,
+        "ceser_la_reunion": 11,
+        "ceser_grand_est": 12,
+        "ceser_normandie": 5,
+        "ceser_nouvelle_aquitaine": 4,
+        "ceser_bretagne": 5,
+        "ceser_centre_val_de_loire": 25
+      }
+    },
+    {
+      "category": "Social",
+      "regions": {
+        "ceser_pays_de_la_loire": 2,
+        "ceser_hauts_de_france": 6,
+        "ceser_la_reunion": 4,
+        "ceser_grand_est": 9,
+        "ceser_normandie": 1,
+        "ceser_nouvelle_aquitaine": 17,
+        "ceser_bretagne": 5,
+        "ceser_centre_val_de_loire": 16
+      }
+    },
+    {
+      "category": "Transport",
+      "regions": {
+        "ceser_hauts_de_france": 3,
+        "ceser_la_reunion": 1,
+        "ceser_grand_est": 10,
+        "ceser_normandie": 1,
+        "ceser_nouvelle_aquitaine": 5,
+        "ceser_bretagne": 2,
+        "ceser_centre_val_de_loire": 16
+      }
+    },
+    {
+      "category": "Énergie",
+      "regions": {
+        "ceser_pays_de_la_loire": 1,
+        "ceser_la_reunion": 2,
+        "ceser_grand_est": 23,
+        "ceser_normandie": 3,
+        "ceser_bretagne": 2,
+        "ceser_centre_val_de_loire": 2
+      }
+    },
+    {
+      "category": "Numérique",
+      "regions": {
+        "ceser_pays_de_la_loire": 2,
+        "ceser_hauts_de_france": 2,
+        "ceser_la_reunion": 3,
+        "ceser_grand_est": 3,
+        "ceser_nouvelle_aquitaine": 3,
+        "ceser_centre_val_de_loire": 5
+      }
+    },
+    {
+      "category": "Autre",
+      "regions": {
+        "ceser_centre_val_de_loire": 1
+      }
+    }
+  ],
+  "region_overlap": {
+    "region_ids": [
+      "ceser_bretagne",
+      "ceser_centre_val_de_loire",
+      "ceser_grand_est",
+      "ceser_hauts_de_france",
+      "ceser_la_reunion",
+      "ceser_normandie",
+      "ceser_nouvelle_aquitaine",
+      "ceser_pays_de_la_loire"
+    ],
+    "region_labels": {
+      "ceser_bretagne": "Bretagne",
+      "ceser_centre_val_de_loire": "Centre-Val de Loire",
+      "ceser_grand_est": "Grand Est",
+      "ceser_hauts_de_france": "Hauts-de-France",
+      "ceser_la_reunion": "La Réunion",
+      "ceser_normandie": "Normandie",
+      "ceser_nouvelle_aquitaine": "Nouvelle-Aquitaine",
+      "ceser_pays_de_la_loire": "Pays de la Loire"
+    },
+    "matrix": [
+      [
+        0.0,
+        173.0,
+        123.0,
+        47.0,
+        86.0,
+        124.0,
+        147.0,
+        36.0
+      ],
+      [
+        173.0,
+        0.0,
+        145.0,
+        54.0,
+        94.0,
+        113.0,
+        175.0,
+        37.0
+      ],
+      [
+        123.0,
+        145.0,
+        0.0,
+        54.0,
+        93.0,
+        91.0,
+        123.0,
+        37.0
+      ],
+      [
+        47.0,
+        54.0,
+        54.0,
+        0.0,
+        47.0,
+        26.0,
+        49.0,
+        22.0
+      ],
+      [
+        86.0,
+        94.0,
+        93.0,
+        47.0,
+        0.0,
+        62.0,
+        87.0,
+        39.0
+      ],
+      [
+        124.0,
+        113.0,
+        91.0,
+        26.0,
+        62.0,
+        0.0,
+        114.0,
+        33.0
+      ],
+      [
+        147.0,
+        175.0,
+        123.0,
+        49.0,
+        87.0,
+        114.0,
+        0.0,
+        38.0
+      ],
+      [
+        36.0,
+        37.0,
+        37.0,
+        22.0,
+        39.0,
+        33.0,
+        38.0,
+        0.0
+      ]
+    ]
+  }
 }

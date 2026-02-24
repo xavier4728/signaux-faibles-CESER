@@ -17,6 +17,7 @@ from app.core.config import settings
 from app.prompts.extraction import CATEGORIZE_SYSTEM_PROMPT
 
 STORE_PATH = settings.FAISS_INDEX_DIR / "analytics_store.json"
+OUTPUT_SEPARATE_PATH = settings.FAISS_INDEX_DIR / "analytics_category_overlap.json"
 BATCH_SIZE = 40
 CATEGORIES = [
     "Environnement", "Agriculture", "Emploi & Formation", "Santé",
@@ -143,8 +144,13 @@ def main():
     with open(STORE_PATH, "w", encoding="utf-8") as f:
         json.dump(store, f, indent=2, ensure_ascii=False)
 
+    output = {"category_stats": category_stats, "region_overlap": store["region_overlap"]}
+    with open(OUTPUT_SEPARATE_PATH, "w", encoding="utf-8") as f:
+        json.dump(output, f, indent=2, ensure_ascii=False)
+
     logger.info(f"Store mis à jour : {len(category_stats)} catégories, matrice {n}x{n}.")
     logger.info(f"Résultat : {STORE_PATH}")
+    logger.info(f"Copie dans fichier à part : {OUTPUT_SEPARATE_PATH}")
 
 
 if __name__ == "__main__":

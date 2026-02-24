@@ -662,8 +662,8 @@ export default function DashboardPage() {
                   });
 
                   const categoryColors = [
-                    "#0ea5e9", "#22c55e", "#eab308", "#f97316", "#ef4444", "#a855f7",
-                    "#06b6d4", "#84cc16", "#ec4899", "#6366f1", "#14b8a6", "#78716c",
+                    "#7dd3fc", "#86efac", "#fde047", "#fdba74", "#fca5a5", "#c4b5fd",
+                    "#67e8f9", "#bef264", "#f9a8d4", "#a5b4fc", "#5eead4", "#a8a29e",
                   ];
                   const totalByCategory = categoryOrder.map((cat, i) => {
                     const stat = stats.category_stats.find((s) => s.category === cat);
