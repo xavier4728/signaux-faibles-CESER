@@ -28,6 +28,7 @@ import {
   Pie,
   Cell,
 } from "recharts";
+import { ObservatoireChatBot } from "@/components/observatoire-chat-bot";
 
 interface RegionStat {
   region: string;
@@ -853,6 +854,9 @@ export default function DashboardPage() {
           </div>
         </div>
       )}
+
+      {/* Chatbot Observatoire */}
+      <ObservatoireChatBot />
     </div>
   );
 }
