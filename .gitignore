@@ -10,8 +10,8 @@ __pycache__/
 backend/.env
 
 # FAISS indexes (generated)
-backend/data/faiss_indexes/.faiss
-backend/data/faiss_indexes/.pkl
+backend/data/faiss_indexes/*.faiss
+backend/data/faiss_indexes/*.pkl
 
 # Next.js
 frontend/.next/

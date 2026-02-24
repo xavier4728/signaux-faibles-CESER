@@ -13,6 +13,111 @@
       "total_precos": 43,
       "matched_precos": 34,
       "taux_conversion": 79.1
+    },
+    {
+      "task_id": "8c800fa5-1643-4a8b-854b-75a816c3a429",
+      "source_document": "1-avis_du_ceser_du_3_octobre_2016_sur_l_eau_horizon2040.pdf",
+      "total_precos": 144,
+      "matched_precos": 72,
+      "taux_conversion": 50.0
+    },
+    {
+      "task_id": "7c79d7be-d366-4144-a064-43cfb7890c43",
+      "source_document": "Avis-du-CESER-sur-les-Enjeux-climatiques-et-gestion-de-leau-session-19-et-20-juin-2023 (1).pdf",
+      "total_precos": 133,
+      "matched_precos": 62,
+      "taux_conversion": 46.6
+    },
+    {
+      "task_id": "c5bf5d9d-3d57-40c9-81a2-4f3bb1726460",
+      "source_document": "Voeu-du-CESER-sur-les-financements-europeens-post-2027-session-du-16.06.25 (1).pdf",
+      "total_precos": 41,
+      "matched_precos": 32,
+      "taux_conversion": 78.0
+    },
+    {
+      "task_id": "9b150fb5-3da3-43a2-b04a-1bf5ebdddefc",
+      "source_document": "Avis-du-CESER-sur-le-Schema-Directeur-Regional-des-Exploitations-Agricoles-session-19-et-20-juin-2023.pdf",
+      "total_precos": 43,
+      "matched_precos": 24,
+      "taux_conversion": 55.8
+    },
+    {
+      "task_id": "727be6e2-d86f-4b9a-acab-bacded8e5a48",
+      "source_document": "Contribution-du-CESER-aux-Etats-generaux-de-linstallation-et-de-la-transmission.pdf",
+      "total_precos": 74,
+      "matched_precos": 56,
+      "taux_conversion": 75.7
+    },
+    {
+      "task_id": "11448cbe-f3e5-4d35-9181-d818587b5fa2",
+      "source_document": "1-_avis_etude_produire_et_resider_sur_le_littoral_en_bretagne.pdf",
+      "total_precos": 156,
+      "matched_precos": 69,
+      "taux_conversion": 44.2
+    },
+    {
+      "task_id": "94f138e5-14b3-4c2a-b790-b011df366f2b",
+      "source_document": "ceser_bretagne_-_produire_et_resider_sur_le_littoral_en_bretagne__2017.pdf",
+      "total_precos": 546,
+      "matched_precos": 252,
+      "taux_conversion": 46.2
+    },
+    {
+      "task_id": "61939e32-84bc-498c-bc6b-cfc0515f5930",
+      "source_document": "Synthese-etude-Usages-du-sol-2060-session-19-et-20-juin-2023 (1).pdf",
+      "total_precos": 241,
+      "matched_precos": 178,
+      "taux_conversion": 73.9
+    },
+    {
+      "task_id": "e8cce6ac-d63b-49d6-bfa1-9febb7ffa52f",
+      "source_document": "Avis-du-CESER-sur-le-Plan-dactions-lycees-agricoles-publics-session-des-4-5.12.23.pdf",
+      "total_precos": 56,
+      "matched_precos": 28,
+      "taux_conversion": 50.0
+    },
+    {
+      "task_id": "5fd3c18f-143c-4f14-b6f7-33d5f954acab",
+      "source_document": "11._regionalisation_pac (1).pdf",
+      "total_precos": 147,
+      "matched_precos": 109,
+      "taux_conversion": 74.1
+    },
+    {
+      "task_id": "bc1d2bc4-ce5f-44e4-aebc-e916885ccda3",
+      "source_document": "13._pac.pdf",
+      "total_precos": 313,
+      "matched_precos": 241,
+      "taux_conversion": 77.0
+    },
+    {
+      "task_id": "8a2384cb-dc6c-4fd3-8c7a-d87d6649728c",
+      "source_document": "Avis-du-CESER-sur-les-orientations-agricoles-session-du-05.02.24.pdf",
+      "total_precos": 135,
+      "matched_precos": 101,
+      "taux_conversion": 74.8
+    },
+    {
+      "task_id": "e5913526-77ad-41df-af06-93ede00ab719",
+      "source_document": "7._avis_ceser_-_schema_directeur_exploitations_agricoles (1).pdf",
+      "total_precos": 29,
+      "matched_precos": 19,
+      "taux_conversion": 65.5
+    },
+    {
+      "task_id": "68951864-e3aa-4f59-910c-eec76d5912d0",
+      "source_document": "11._regionalisation_pac.pdf",
+      "total_precos": 144,
+      "matched_precos": 108,
+      "taux_conversion": 75.0
+    },
+    {
+      "task_id": "1d68507b-0465-40e3-8dcb-c27338a47672",
+      "source_document": "Rapport-Usages-des-sols-WEB.pdf",
+      "total_precos": 1651,
+      "matched_precos": 1093,
+      "taux_conversion": 66.2
     }
   ]
 }
