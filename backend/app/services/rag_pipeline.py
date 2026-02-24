@@ -28,11 +28,12 @@ from app.services.vector_store import VectorStoreManager
 
 class RAGPipeline:
     """
-    Core RAG pipeline implementing the 4-step analysis:
-    1. Document parsing & segmentation (or retrieval from store)
+    Core RAG pipeline implementing the 5-step analysis:
+    1. Document parsing & segmentation (or retrieval from the correct regional shard)
     2. LLM-based structured extraction (parallel)
     3. FAISS vector search against legal base
     4. LLM-based validation & scoring (parallel)
+    5. Synthesis
     """
 
     def __init__(self):
@@ -57,7 +58,11 @@ class RAGPipeline:
         return self._llm
 
     def _load_parent_store(self) -> dict:
-        """Charge le store des chunks parents pour reconstruire le texte."""
+        """
+        Loads the LEGAL base parent store (parent_store.json).
+        Used exclusively for the vector search comparison step (Step 3).
+        Do NOT use this to load CESER document content.
+        """
         store_path = settings.FAISS_INDEX_DIR / "parent_store.json"
         if store_path.exists():
             try:
@@ -65,6 +70,70 @@ class RAGPipeline:
                     return json.load(f)
             except Exception:
                 return {}
+        return {}
+
+    def _load_parent_store_for_database(self, database: str) -> dict:
+        """
+        Loads the regional CESER parent store shard for a given database name.
+
+        The ingestion scripts (ingest_cesers.py) write one shard per region:
+            parent_store_ceser_bretagne.json
+            parent_store_ceser_normandie.json
+            ... etc.
+
+        Falls back to the default parent_store.json only for the legal base
+        (database == "legal_national"), which should never be used as a CESER
+        input source but is handled gracefully just in case.
+
+        Args:
+            database: The database identifier, e.g. "ceser_bretagne".
+
+        Returns:
+            A dict mapping parent_id -> {text, source_doc, page, ...}
+        """
+        if database == "legal_national":
+            # Shouldn't happen in batch analysis of CESER docs, but handle safely
+            logger.warning(
+                f"_load_parent_store_for_database called with 'legal_national'. "
+                "This is the comparison base, not a CESER input source. "
+                "Returning empty store."
+            )
+            return {}
+
+        # Primary path: dedicated regional shard written by ingest_cesers.py
+        shard_path = settings.FAISS_INDEX_DIR / f"parent_store_{database}.json"
+        if shard_path.exists():
+            try:
+                with open(shard_path, "r", encoding="utf-8") as f:
+                    store = json.load(f)
+                logger.info(
+                    f"Loaded regional shard '{shard_path.name}' "
+                    f"({len(store)} parent chunks)"
+                )
+                return store
+            except Exception as e:
+                logger.error(f"Failed to read shard {shard_path}: {e}")
+                return {}
+
+        # Fallback: the monolithic parent_store.json may contain mixed content
+        # if the user ran ingest_legal.py after an old single-store ingestion.
+        fallback_path = settings.FAISS_INDEX_DIR / "parent_store.json"
+        if fallback_path.exists():
+            logger.warning(
+                f"Regional shard '{shard_path.name}' not found. "
+                f"Falling back to '{fallback_path.name}'. "
+                "Consider re-running ingest_cesers.py to generate dedicated shards."
+            )
+            try:
+                with open(fallback_path, "r", encoding="utf-8") as f:
+                    return json.load(f)
+            except Exception as e:
+                logger.error(f"Failed to read fallback store {fallback_path}: {e}")
+
+        logger.error(
+            f"No parent store found for database '{database}'. "
+            f"Checked: {shard_path} and {fallback_path}"
+        )
         return {}
 
     async def run_analysis(
@@ -87,57 +156,93 @@ class RAGPipeline:
                 # Cas 1 : Fichier uploadé (nouvelle analyse)
                 logger.info(f"[{task_id}] ÉTAPE 1 : Parsing du fichier uploadé...")
                 segments = await self._parse_document(task_id, file_content, filename, document_id)
-            
+
             elif document_id:
                 # Cas 2 : Analyse d'un document existant (Batch Dashboard)
-                logger.info(f"[{task_id}] ÉTAPE 1 : Récupération depuis le Vector Store...")
+                logger.info(f"[{task_id}] ÉTAPE 1 : Récupération depuis le shard régional...")
+
                 doc_info = self.vector_store.get_document(document_id)
                 if not doc_info:
-                    raise ValueError(f"Document ID {document_id} introuvable")
-                
+                    raise ValueError(f"Document ID {document_id} introuvable dans le registre de métadonnées")
+
                 source_doc = doc_info.filename
-                parent_store = await asyncio.to_thread(self._load_parent_store)
-                
-                # Récupération des chunks liés à ce document
+                database = doc_info.database  # e.g. "ceser_bretagne"
+
+                logger.info(
+                    f"[{task_id}] Document '{source_doc}' appartient à la base '{database}'. "
+                    f"Chargement du shard parent_store_{database}.json..."
+                )
+
+                # ✅ FIX: load the correct regional shard, NOT parent_store.json
+                parent_store = await asyncio.to_thread(
+                    self._load_parent_store_for_database, database
+                )
+
+                if not parent_store:
+                    raise ValueError(
+                        f"Shard régional introuvable pour la base '{database}'. "
+                        f"Vérifiez que le fichier parent_store_{database}.json existe "
+                        f"dans {settings.FAISS_INDEX_DIR} et relancez ingest_cesers.py si nécessaire."
+                    )
+
+                # Retrieve all chunks belonging to this specific document
                 relevant_chunks = [
-                    chunk for chunk in parent_store.values() 
+                    chunk for chunk in parent_store.values()
                     if chunk.get("source_doc") == source_doc
                 ]
+
+                if not relevant_chunks:
+                    # The shard exists but contains no entry for this filename.
+                    # This can happen if the document was registered in metadata.json
+                    # but the shard was regenerated without it.
+                    logger.warning(
+                        f"[{task_id}] Aucun chunk trouvé pour '{source_doc}' dans le shard "
+                        f"'{database}'. Contenu du shard ({len(parent_store)} chunks) "
+                        f"pour les premiers fichiers : "
+                        f"{list({c.get('source_doc') for c in list(parent_store.values())[:10]})}"
+                    )
+
                 relevant_chunks.sort(key=lambda x: x.get("page", 0))
-                
                 segments = [
                     {
-                        "text": chunk["text"], 
-                        "source_doc": source_doc, 
-                        "page": chunk.get("page", 0)
-                    } 
+                        "text": chunk["text"],
+                        "source_doc": source_doc,
+                        "page": chunk.get("page", 0),
+                    }
                     for chunk in relevant_chunks
                 ]
-                
+
+                logger.info(
+                    f"[{task_id}] {len(segments)} segments récupérés depuis "
+                    f"parent_store_{database}.json pour '{source_doc}'"
+                )
+
             if not segments:
-                raise ValueError("Aucun segment de texte trouvé pour l'analyse")
+                raise ValueError(
+                    f"Aucun segment de texte trouvé pour l'analyse de '{source_doc}'. "
+                    "Vérifiez que le document a bien été ingéré via ingest_cesers.py."
+                )
 
             task_manager.update_task(task_id, progress=0.15, message=f"{len(segments)} segments prêts")
 
             # --- ÉTAPE 2 : Extraction LLM ---
             logger.info(f"[{task_id}] ÉTAPE 2 : Extraction des préconisations ({len(segments)} segments)...")
             preconisations = await self._extract_preconisations(segments, source_doc)
-            
+
             if not preconisations:
                 logger.warning(f"[{task_id}] Aucune préconisation trouvée.")
                 empty_result = AnalysisResult(
                     task_id=task_id, status="completed", source_document=source_doc,
                     total_preconisations=0, matched_preconisations=0, taux_conversion=0.0, results=[]
                 )
-                # On sauvegarde même les résultats vides pour le suivi
                 dashboard_service.save_analysis_result(empty_result)
                 task_manager.update_task(task_id, status="completed", progress=1.0, result=empty_result, message="Aucune préconisation")
                 return
 
             task_manager.update_task(task_id, progress=0.40, message=f"{len(preconisations)} précos extraites")
 
-            # --- ÉTAPE 3 : Recherche Vectorielle ---
-            logger.info(f"[{task_id}] ÉTAPE 3 : Recherche vectorielle...")
+            # --- ÉTAPE 3 : Recherche Vectorielle (toujours sur la base légale) ---
+            logger.info(f"[{task_id}] ÉTAPE 3 : Recherche vectorielle sur la base légale...")
             legal_contexts = await self._search_legal_base(preconisations)
             task_manager.update_task(task_id, progress=0.60, message="Contexte légal récupéré")
 
@@ -165,7 +270,6 @@ class RAGPipeline:
                 results=results,
             )
 
-            # Sauvegarde persistante pour le Dashboard
             try:
                 dashboard_service.save_analysis_result(final_result)
             except Exception as e:
@@ -317,17 +421,23 @@ class RAGPipeline:
         return all_precos
 
     async def _search_legal_base(self, preconisations: list[Preconisation]) -> dict[int, list[dict]]:
+        """
+        Searches the LEGAL base (legal_national.faiss + parent_store.json).
+        This is intentionally kept separate from the CESER input loading.
+        """
         loop = asyncio.get_event_loop()
+
         def _do_search():
             from langchain_community.vectorstores import FAISS
             embeddings = self._get_embeddings()
             index_path = settings.FAISS_INDEX_DIR / "legal_national.faiss"
-            
+
             if not index_path.exists():
-                logger.error(f"Index FAISS non trouvé: {index_path}")
+                logger.error(f"Index FAISS légal non trouvé: {index_path}")
                 return {p.id: [] for p in preconisations}
 
-            parent_store = self._load_parent_store()
+            # Always use the legal base parent store for the comparison step
+            legal_parent_store = self._load_parent_store()
             legal_index = FAISS.load_local(
                 str(settings.FAISS_INDEX_DIR),
                 embeddings,
@@ -341,8 +451,8 @@ class RAGPipeline:
                 parent_results = []
                 for doc, score in results:
                     pid = doc.metadata.get("parent_id", "")
-                    if parent_store and pid:
-                        parent = parent_store.get(pid, {})
+                    if legal_parent_store and pid:
+                        parent = legal_parent_store.get(pid, {})
                         if parent:
                             parent_results.append({
                                 "text": parent.get("text", ""),
@@ -359,6 +469,7 @@ class RAGPipeline:
                         })
                 contexts[preco.id] = parent_results
             return contexts
+
         return await loop.run_in_executor(None, _do_search)
 
     async def _validate_matches(

@@ -1,1 +1,18 @@
-{"analyses": []}
+{
+  "analyses": [
+    {
+      "task_id": "600fc450-eeaa-4e00-8ce5-dc243da1417a",
+      "source_document": "1-avis_du_ceser_du_3_octobre_2016_sur_l_eau_horizon2040 (1).pdf",
+      "total_precos": 153,
+      "matched_precos": 76,
+      "taux_conversion": 49.7
+    },
+    {
+      "task_id": "6df5f1fc-3bbe-44b5-9ceb-fcdfbce98a8d",
+      "source_document": "Voeu-du-CESER-sur-les-financements-europeens-post-2027-session-du-16.06.25.pdf",
+      "total_precos": 43,
+      "matched_precos": 34,
+      "taux_conversion": 79.1
+    }
+  ]
+}
