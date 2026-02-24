@@ -120,7 +120,7 @@ class RAGPipeline:
             total = len(results)
             taux = (matched / total * 100) if total > 0 else 0.0
 
-            # Step 5: Generate synthesis
+# Step 5: Generate synthesis
             logger.info(f"[{task_id}] ÉTAPE 5/5 : Génération de la synthèse analytique...")
             task_manager.update_task(task_id, progress=0.9, message="Génération de la synthèse analytique (LLM)...")
             synthese, categories = await self._generate_synthesis(results, source_doc, total, matched, taux)
@@ -137,6 +137,16 @@ class RAGPipeline:
                 categories=categories,
                 results=results,
             )
+
+            # --- DÉBUT MODIFICATION SENIOR ---
+            # On persiste le résultat pour le dashboard de manière asynchrone/sécurisée
+            try:
+                logger.info(f"[{task_id}] Sauvegarde des statistiques Dashboard...")
+                dashboard_service.save_analysis_result(analysis_result)
+            except Exception as e:
+                # On log l'erreur mais on ne fail pas la tâche principale pour ça
+                logger.error(f"[{task_id}] ERREUR CRITIQUE DASHBOARD: Impossible de sauver les stats: {e}")
+            # --- FIN MODIFICATION SENIOR ---
 
             task_manager.update_task(
                 task_id,

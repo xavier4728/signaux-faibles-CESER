@@ -4,7 +4,7 @@ from contextlib import asynccontextmanager
 from loguru import logger
 
 from app.core.config import settings
-from app.routers import ingest, analysis, documents, chat
+from app.routers import ingest, analysis, documents, chat, dashboard
 
 
 @asynccontextmanager
@@ -34,7 +34,7 @@ app.include_router(ingest.router, prefix="/api/ingest", tags=["Ingestion"])
 app.include_router(analysis.router, prefix="/api/analysis", tags=["Analysis"])
 app.include_router(documents.router, prefix="/api/documents", tags=["Documents"])
 app.include_router(chat.router, prefix="/api/chat", tags=["Chat"])
-
+app.include_router(dashboard.router, prefix="/api/dashboard", tags=["Dashboard"])
 
 @app.get("/api/health")
 async def health_check():

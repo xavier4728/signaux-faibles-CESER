@@ -1,3 +1,6 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -5,42 +8,91 @@ import {
   FileText,
   MapPin,
   BarChart3,
+  Loader2,
 } from "lucide-react";
+import { toast } from "sonner";
 
-const kpiCards = [
-  {
-    title: "Taux de conversion global",
-    value: "—",
-    subtitle: "Préconisations reprises dans la loi",
-    icon: TrendingUp,
-    accent: "text-[var(--color-ceser-green)]",
-  },
-  {
-    title: "Documents analysés",
-    value: "0",
-    subtitle: "Rapports CESER indexés",
-    icon: FileText,
-    accent: "text-[var(--color-ceser-blue)]",
-  },
-  {
-    title: "Régions couvertes",
-    value: "8",
-    subtitle: "CESER régionaux",
-    icon: MapPin,
-    accent: "text-[var(--color-ceser-gold)]",
-  },
-  {
-    title: "Préconisations extraites",
-    value: "0",
-    subtitle: "Total cumulé",
-    icon: BarChart3,
-    accent: "text-[var(--color-ceser-blue-light)]",
-  },
-];
+// Définition stricte des types attendus du backend
+interface DashboardStats {
+  kpis: {
+    taux_conversion_global: number;
+    documents_analyses: number;
+    regions_couvertes: number;
+    preconisations_extraites: number;
+  };
+  comparateur_regional: Array<{
+    region: string;
+    count: number;
+    impact_score: number;
+  }>;
+}
 
 export default function DashboardPage() {
+  const [stats, setStats] = useState<DashboardStats | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
+
+  const fetchStats = async () => {
+    try {
+      setLoading(true);
+      // Utilisation de l'URL relative ou via variable d'environnement
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+      const res = await fetch(`${apiUrl}/api/dashboard/stats`);
+      
+      if (!res.ok) {
+        throw new Error("Erreur serveur lors de la récupération des stats");
+      }
+      
+      const data = await res.json();
+      setStats(data);
+      setError(false);
+    } catch (err) {
+      console.error(err);
+      setError(true);
+      toast.error("Impossible de charger les données du tableau de bord");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchStats();
+  }, []);
+
+  // Configuration dynamique des cartes avec valeurs par défaut sécurisées
+  const kpiCards = [
+    {
+      title: "Taux de conversion global",
+      value: stats ? `${stats.kpis.taux_conversion_global}%` : "—",
+      subtitle: "Préconisations reprises dans la loi",
+      icon: TrendingUp,
+      accent: "text-[var(--color-ceser-green)]",
+    },
+    {
+      title: "Documents analysés",
+      value: stats ? stats.kpis.documents_analyses.toString() : "0",
+      subtitle: "Rapports CESER indexés",
+      icon: FileText,
+      accent: "text-[var(--color-ceser-blue)]",
+    },
+    {
+      title: "Régions couvertes",
+      value: stats ? stats.kpis.regions_couvertes.toString() : "0",
+      subtitle: "CESER régionaux",
+      icon: MapPin,
+      accent: "text-[var(--color-ceser-gold)]",
+    },
+    {
+      title: "Préconisations extraites",
+      value: stats ? stats.kpis.preconisations_extraites.toString() : "0",
+      subtitle: "Total cumulé",
+      icon: BarChart3,
+      accent: "text-[var(--color-ceser-blue-light)]",
+    },
+  ];
+
   return (
-    <div className="space-y-8">
+    <div className="space-y-8 animate-in fade-in duration-500">
       <section>
         <div className="mb-6 flex items-center justify-between">
           <div>
@@ -51,14 +103,21 @@ export default function DashboardPage() {
               Synthèse nationale de l&apos;impact des préconisations CESER
             </p>
           </div>
-          <Badge variant="secondary" className="text-xs">
-            Données en attente d&apos;ingestion
-          </Badge>
+          <div className="flex items-center gap-2">
+            {loading && <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />}
+            <Badge 
+                variant={error ? "destructive" : "secondary"} 
+                className="text-xs transition-colors cursor-pointer"
+                onClick={fetchStats}
+            >
+              {error ? "Erreur de connexion (réessayer)" : loading ? "Mise à jour..." : "Données temps réel"}
+            </Badge>
+          </div>
         </div>
 
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {kpiCards.map((kpi) => (
-            <Card key={kpi.title} className="border-border/60">
+            <Card key={kpi.title} className="border-border/60 shadow-sm hover:shadow-md transition-shadow">
               <CardHeader className="flex flex-row items-center justify-between pb-2">
                 <CardTitle className="text-sm font-medium text-muted-foreground">
                   {kpi.title}
@@ -67,7 +126,11 @@ export default function DashboardPage() {
               </CardHeader>
               <CardContent>
                 <div className="text-3xl font-bold text-foreground">
-                  {kpi.value}
+                  {loading && !stats ? (
+                    <div className="h-8 w-16 animate-pulse rounded bg-muted" />
+                  ) : (
+                    kpi.value
+                  )}
                 </div>
                 <p className="mt-1 text-xs text-muted-foreground">
                   {kpi.subtitle}
@@ -93,8 +156,11 @@ export default function DashboardPage() {
               <div className="text-center">
                 <BarChart3 className="mx-auto h-10 w-10 text-muted-foreground/40" />
                 <p className="mt-2 text-sm text-muted-foreground">
-                  Le graphique comparatif apparaîtra après ingestion des données
+                  Le graphique comparatif apparaîtra ici
                 </p>
+                {stats && stats.kpis.documents_analyses > 0 && (
+                    <Badge variant="outline" className="mt-2">Données disponibles</Badge>
+                )}
               </div>
             </div>
           </CardContent>
@@ -114,7 +180,7 @@ export default function DashboardPage() {
               <div className="text-center">
                 <MapPin className="mx-auto h-10 w-10 text-muted-foreground/40" />
                 <p className="mt-2 text-sm text-muted-foreground">
-                  La carte de France apparaîtra après ingestion des données
+                  La carte de France apparaîtra ici
                 </p>
               </div>
             </div>
@@ -137,7 +203,7 @@ export default function DashboardPage() {
             <div className="text-center">
               <TrendingUp className="mx-auto h-10 w-10 text-muted-foreground/40" />
               <p className="mt-2 text-sm text-muted-foreground">
-                La frise chronologique apparaîtra après ingestion et analyse
+                La frise chronologique apparaîtra ici
               </p>
             </div>
           </div>
