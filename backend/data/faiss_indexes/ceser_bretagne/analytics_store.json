@@ -1,0 +1,12 @@
+{
+  "analyses": [
+    {
+      "task_id": "b832adb4-7a03-4f67-bc3d-fb986e176a5c",
+      "source_document": "1-avis_du_ceser_du_3_octobre_2016_sur_l_eau_horizon2040 (1).pdf",
+      "total_precos": 153,
+      "matched_precos": 79,
+      "taux_conversion": 51.6,
+      "region": "ceser_bretagne"
+    }
+  ]
+}

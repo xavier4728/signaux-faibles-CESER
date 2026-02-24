@@ -151,6 +151,10 @@ class RAGPipeline:
             # --- ÉTAPE 1 : Récupération des segments ---
             segments = []
             source_doc = filename or "unknown"
+            
+            # Détermination de la région pour l'enregistrement des stats
+            # Par défaut, on utilise le filtre ou "inconnu". Sera mis à jour si doc existant.
+            current_region = region_filter if region_filter else "inconnu"
 
             if file_content and filename:
                 # Cas 1 : Fichier uploadé (nouvelle analyse)
@@ -167,9 +171,13 @@ class RAGPipeline:
 
                 source_doc = doc_info.filename
                 database = doc_info.database  # e.g. "ceser_bretagne"
+                
+                # Mise à jour de la région à partir des métadonnées du document
+                if doc_info.metadata and doc_info.metadata.region:
+                    current_region = doc_info.metadata.region
 
                 logger.info(
-                    f"[{task_id}] Document '{source_doc}' appartient à la base '{database}'. "
+                    f"[{task_id}] Document '{source_doc}' appartient à la base '{database}' (Région: {current_region}). "
                     f"Chargement du shard parent_store_{database}.json..."
                 )
 
@@ -193,8 +201,6 @@ class RAGPipeline:
 
                 if not relevant_chunks:
                     # The shard exists but contains no entry for this filename.
-                    # This can happen if the document was registered in metadata.json
-                    # but the shard was regenerated without it.
                     logger.warning(
                         f"[{task_id}] Aucun chunk trouvé pour '{source_doc}' dans le shard "
                         f"'{database}'. Contenu du shard ({len(parent_store)} chunks) "
@@ -235,7 +241,8 @@ class RAGPipeline:
                     task_id=task_id, status="completed", source_document=source_doc,
                     total_preconisations=0, matched_preconisations=0, taux_conversion=0.0, results=[]
                 )
-                dashboard_service.save_analysis_result(empty_result)
+                # Correction ici : Ajout de l'argument current_region
+                dashboard_service.save_analysis_result(empty_result, current_region)
                 task_manager.update_task(task_id, status="completed", progress=1.0, result=empty_result, message="Aucune préconisation")
                 return
 
@@ -271,7 +278,8 @@ class RAGPipeline:
             )
 
             try:
-                dashboard_service.save_analysis_result(final_result)
+                # Correction ici : Ajout de l'argument current_region
+                dashboard_service.save_analysis_result(final_result, current_region)
             except Exception as e:
                 logger.error(f"[{task_id}] Erreur sauvegarde dashboard: {e}")
 
