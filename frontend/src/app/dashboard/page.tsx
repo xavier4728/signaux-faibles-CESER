@@ -303,9 +303,9 @@ export default function DashboardPage() {
                       tick={{ fontSize: 11 }}
                     />
                     <Tooltip
-                      formatter={(value: number, name: string) => [
-                        `${value} précos`,
-                        name,
+                      formatter={(value: number | undefined, name: string | undefined) => [
+                        `${value ?? 0} précos`,
+                        name ?? "",
                       ]}
                       contentStyle={{
                         fontSize: 12,
@@ -377,8 +377,8 @@ export default function DashboardPage() {
                         ))}
                       </Pie>
                       <Tooltip
-                        formatter={(value: number) => [
-                          `${value} préconisations`,
+                        formatter={(value: number | undefined) => [
+                          `${value ?? 0} préconisations`,
                           "",
                         ]}
                         contentStyle={{
@@ -474,7 +474,7 @@ export default function DashboardPage() {
                         />
                         <YAxis allowDecimals={false} tick={{ fontSize: 11 }} width={28} />
                         <Tooltip
-                          formatter={(value: number) => [`${value} documents`, "Documents"]}
+                          formatter={(value: number | undefined) => [`${value ?? 0} documents`, "Documents"]}
                           contentStyle={{
                             fontSize: 12,
                             borderRadius: 8,
@@ -517,8 +517,8 @@ export default function DashboardPage() {
                         />
                         <YAxis allowDecimals={true} tick={{ fontSize: 11 }} width={28} />
                         <Tooltip
-                          formatter={(value: number) => [
-                            `${value} préconisations / doc`,
+                          formatter={(value: number | undefined) => [
+                            `${value ?? 0} préconisations / doc`,
                             "Moyenne",
                           ]}
                           contentStyle={{
